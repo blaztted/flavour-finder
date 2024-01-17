@@ -1,0 +1,36 @@
+.navbar {
+  height: 8rem;
+  z-index: 1;
+  width: 100%;
+}
+
+.navbar-brand {
+  font-family: var(--sottel);
+  font-size: 60px;
+  text-decoration: none !important;
+  color: var(--white) !important;
+  margin-left: 9%;
+  margin-right: 32%;
+}
+
+.navbar-collapse {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.navbar-nav > li {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.nav-link {
+  font-size: 20px;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.favourite {
+  margin-left: 20px;
+}
