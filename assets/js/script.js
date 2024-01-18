@@ -5,6 +5,7 @@ var query = "11lb brisket and fries";
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
+const randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
 const nutritionAPI = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
