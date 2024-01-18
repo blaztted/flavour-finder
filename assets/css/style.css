@@ -34,3 +34,33 @@
 .favourite {
   margin-left: 20px;
 }
+
+.btn-outline-success{
+  color:#f4f3f3;
+}
+
+.jumbotron {
+  background: #bfd8d5;
+  margin-left: 9%;
+  margin-right: 9%;
+  font-family: var(--sottel);
+}
+
+.display-flex {
+display: flex;
+}
+
+.btn-padding {
+  padding: 5%;
+}
+
+.btn {
+  display: flex;
+  background: #b1bed5;
+  font-family: var(--sottel);
+  border-color: #dfdfdf;
+  padding
+}
+  
+
+

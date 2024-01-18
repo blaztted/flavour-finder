@@ -18,45 +18,77 @@
   </head>
   <body>
     <section class="section"></section>
-    <script src="./assets/js/script.js"></script>
-  </body>
-</html>
 
-<header>
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Flavour Finder</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <form class="d-flex" role="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              Search
-            </button>
-            <i
-              class="favourite material-icons"
-              style="font-size: 48px; color: rgb(240, 127, 127)"
-              >favorite</i
-            >
-          </form>
-        </ul>
-      </div>
+
+    <header>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Flavour Finder</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <form class="d-flex" role="search">
+                <input
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button class="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+                <i
+                  class="favourite material-icons"
+                  style="font-size: 48px; color: rgb(240, 127, 127)"
+                  >favorite</i
+                >
+              </form>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+  <!-- Hero Section -->
+      <!--Jumbotron-->
+
+  <div class="jumbotron">
+    <h1 class="display-4">Recipe suggestions</h1>
+    <p class="lead">Click on any type and we will give you 4 ideas. You just have to make your choice.</p>
+    <hr class="my-4">
+    <p></p>
+    <div class="display-flex">
+      <p class=" lead btn-padding">
+        <button class="btn btn-primary btn-lg" href="#" role="button">Dinner</button>
+      </p>
+      <p class="lead btn-padding">
+        <button class="btn btn-primary btn-lg" href="#" role="button">Breakfast</button>
+      </p>
+      <p class="lead btn-padding">
+        <button class="btn btn-primary btn-lg" href="#" role="button">Healthy</button>
+      </p>
+      <p class="lead btn-padding">
+        <button class="btn btn-primary btn-lg" href="#" role="button">Desserts</button>
+      </p>
     </div>
-  </nav>
-</header>
+  </div>
+
+  
+
+    <!-- jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  
+    <script src="./assets/js/script.js"></script>  
+  </body>
+
+</html>  
