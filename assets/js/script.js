@@ -67,3 +67,8 @@ function displayFavourite() {
   let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
   console.log(fav);
 }
+
+$(document).on("click", ".material-icons", function () {
+  displayFavourite();
+  console.log("ding");
+});
