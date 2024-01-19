@@ -2,9 +2,10 @@ var query = "11lb brisket and fries";
 
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = '130382831c7c42c98bad843f34508788';
+const spoonApiKey = "130382831c7c42c98bad843f34508788";
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
+
 const randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
@@ -13,7 +14,10 @@ const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
 async function getSpoonacularData() {
   try {
-    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI_KEY}`);
+    const type = "dessert";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
     const data = await response.json();
     console.log("Spoonacular Data:", data);
   } catch (error) {
@@ -70,9 +74,8 @@ function renderCard(recipe) {
 
   cardInfoEl.append(timeInfoEl, caloriesIcon, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
-  recipeSection.append(cardEl)
+  recipeSection.append(cardEl);
 }
-
 
 getSpoonacularData();
 getNutritionData();
@@ -109,9 +112,9 @@ function displayFavourite() {
   console.log(fav);
 }
 
-
-
-
-
+$(document).on("click", ".material-icons", function () {
+  displayFavourite();
+  console.log("ding");
+});
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
