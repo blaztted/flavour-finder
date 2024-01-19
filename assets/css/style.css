@@ -34,3 +34,8 @@
 .favourite {
   margin-left: 20px;
 }
+
+#recipes {
+  display: flex;
+  justify-content: space-around;
+}
