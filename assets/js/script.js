@@ -21,6 +21,50 @@ async function getSpoonacularData() {
   }
 }
 
+async function getSpoonacularMain() {
+  try {
+    const type = "main course";
+    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI}&type=${type}`);
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularBreakfast() {
+  try {
+    const type = "breakfast";
+    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI}&type=${type}`);
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularHealthy() {
+  try {
+    const type = "salad";
+    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI}&type=${type}`);
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularDessert() {
+  try {
+    const type = "dessert";
+    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI}&type=${type}`);
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
 async function getNutritionData() {
   try {
     const response = await fetch(nutritionURL, {
@@ -37,3 +81,4 @@ async function getNutritionData() {
 
 getSpoonacularData();
 getNutritionData();
+
