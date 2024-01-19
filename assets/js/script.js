@@ -2,9 +2,10 @@ var query = "11lb brisket and fries";
 
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = '130382831c7c42c98bad843f34508788';
+const spoonApiKey = "130382831c7c42c98bad843f34508788";
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
+
 const randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
@@ -13,7 +14,10 @@ const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
 async function getSpoonacularData() {
   try {
-    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI_KEY}`);
+    const type = "dessert";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
     const data = await response.json();
     console.log("Spoonacular Data:", data);
   } catch (error) {
@@ -35,7 +39,7 @@ async function getNutritionData() {
   }
 }
 
-const recipeSection = $('#recipe');
+const recipeSection = $("#recipe");
 console.log(recipeSection);
 
 async function getSpoonacularRandom() {
@@ -49,30 +53,33 @@ async function getSpoonacularRandom() {
   }
 }
 
-getSpoonacularRandom()
-  .then((recipes => {
-    console.log('inside', recipes);
-    recipes.forEach(recipe => {
+getSpoonacularRandom().then((recipes) => {
+  console.log("inside", recipes);
+  recipes.forEach((recipe) => {
     console.log(recipe.title);
     renderCard();
-    })
-}));
+  });
+});
 
 function renderCard() {
-  console.log('inside', recipe);
+  console.log("inside", recipe);
   let cardEl = $('<div class="card" style="width: 18rem;>');
-  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
+  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
+    "src",
+    recipe.image
+  );
   let cardInfoEl = $('<div class="card-body">');
   let cardTitle = $('< class="card-title">').text(recipe.title);
   let timeIcon = $('<img class="card-img-top" alt="cooking time">');
   let caloriesIcon = $('<img class="card-img-top" alt="cooking time">');
-  let favoriteIcon = $('<i class="favourite material-icons"style="font-size: 48px; color: rgb(240, 127, 127)">')
+  let favoriteIcon = $(
+    '<i class="favourite material-icons"style="font-size: 48px; color: rgb(240, 127, 127)">'
+  );
   //let favoriteIcon = $('<img class="card-img-top" alt="cooking time">').attr('src', )
   cardInfoEl.append(timeIcon, caloriesIcon, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
-  recipeSection.append(cardEl)
+  recipeSection.append(cardEl);
 }
-
 
 //getSpoonacularData();
 //getNutritionData();
