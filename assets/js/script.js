@@ -39,9 +39,6 @@ async function getNutritionData() {
   }
 }
 
-const recipeSection = $("#recipe");
-console.log(recipeSection);
-
 async function getSpoonacularRandom() {
   try {
     const response = await fetch(`${randomURL}?number=4&apiKey=${spoonApiKey}`);
@@ -81,8 +78,6 @@ function renderCard() {
   recipeSection.append(cardEl);
 }
 
-//getSpoonacularData();
-//getNutritionData();
 getSpoonacularData();
 getNutritionData();
 
@@ -122,3 +117,5 @@ $(document).on("click", ".material-icons", function () {
   displayFavourite();
   console.log("ding");
 });
+
+// <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>

@@ -25,3 +25,8 @@
 .favourite {
   margin-left: 5%;
 }
+
+#recipes {
+  display: flex;
+  justify-content: space-around;
+}
