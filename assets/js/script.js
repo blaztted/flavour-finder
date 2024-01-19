@@ -62,8 +62,7 @@ function renderCard() {
   console.log("inside", recipe);
   let cardEl = $('<div class="card" style="width: 18rem;>');
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
-    "src",
-    recipe.image
+    "src", recipe.image
   );
   let cardInfoEl = $('<div class="card-body">');
   let cardTitle = $('< class="card-title">').text(recipe.title);
