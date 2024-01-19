@@ -1,9 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Montserrat+Alternates:wght@300&family=Montserrat:wght@300&display=swap");
 
+:root {
+  --lightColor: whitesmoke;
+  --lightGrey: #dfdfdf;
+  --lightGreen: #b0f097;
+  --darkLime: #55ac08;
+  --sottel: "Sottel", sans-serif;
+}
+
 .navbar {
   height: 8rem;
   z-index: 1;
   width: 100%;
+
 }
 
 .navbar-brand {
@@ -29,4 +38,57 @@
 #recipes {
   display: flex;
   justify-content: space-around;
+}
+.btn-outline-success{
+  color: var(--lightColor)
+}
+
+.jumbotron {
+  background: var(--lightGreen);
+  align-content: center;
+  margin-left: 9%;
+  margin-right: 9%;
+  font-family: var(--sottel);
+}
+
+.container {
+align-items: center;
+justify-content: center;
+}
+
+
+.btn {
+  background: var(--lightGrey);
+  font-family: var(--sottel);
+  border-color: #dfdfdf;
+  padding
+}
+  
+.btnshadow:hover {
+  box-shadow: 0 30px 30px var(--darkLime);
+}
+.btn:hover {
+  box-shadow: 0 6px 10px var(--darkLime);
+  background-color: var(--lightColor);
+  color: var(--darkLime)
+}
+
+.subscribe {
+  display: flex;
+  border-radius: 8%;
+  justify-content: center;
+  background: var(--darkLime)
+  margin-left: 9%;
+  margin-right: 9%;
+}
+
+.form {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+
+.footer{
+  background-color: var(--lightGreen); !important
 }
