@@ -31,6 +31,7 @@ async function getSpoonacularMain() {
     console.error("Error fetching Spoonacular data:", error);
   }
 }
+console.log("Hi")
 
 async function getSpoonacularBreakfast() {
   try {
