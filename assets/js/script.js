@@ -35,9 +35,6 @@ async function getNutritionData() {
   }
 }
 
-const recipeSection = $('#recipe');
-console.log(recipeSection);
-
 async function getSpoonacularRandom() {
   try {
     const response = await fetch(`${randomURL}?number=4&apiKey=${spoonApiKey}`);
@@ -51,31 +48,28 @@ async function getSpoonacularRandom() {
 
 getSpoonacularRandom()
   .then((recipes => {
-    console.log('inside', recipes);
-    recipes.forEach(recipe => {
-    console.log(recipe.title);
-    renderCard();
-    })
-}));
+  recipes.forEach(recipe => {
+  renderCard(recipe);
+   })
+  }));
 
-function renderCard() {
-  console.log('inside', recipe);
-  let cardEl = $('<div class="card" style="width: 18rem;>');
+const recipeSection = $('#recipes');
+
+function renderCard(recipe) {
+  let cardEl = $('<div class="card" style="width: 18rem">');
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
   let cardInfoEl = $('<div class="card-body">');
-  let cardTitle = $('< class="card-title">').text(recipe.title);
-  let timeIcon = $('<img class="card-img-top" alt="cooking time">');
-  let caloriesIcon = $('<img class="card-img-top" alt="cooking time">');
-  let favoriteIcon = $('<i class="favourite material-icons"style="font-size: 48px; color: rgb(240, 127, 127)">')
-  //let favoriteIcon = $('<img class="card-img-top" alt="cooking time">').attr('src', )
+  let cardTitle = $('<h5 class="card-title">').text(recipe.title);
+  let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
+  let caloriesIcon = $('<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'); 
+  let favoriteIcon = $('<i class="favorite material-icons" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
+
   cardInfoEl.append(timeIcon, caloriesIcon, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
   recipeSection.append(cardEl)
 }
 
 
-//getSpoonacularData();
-//getNutritionData();
 getSpoonacularData();
 getNutritionData();
 
@@ -110,3 +104,10 @@ function displayFavourite() {
   let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
   console.log(fav);
 }
+
+
+
+
+
+
+// <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
