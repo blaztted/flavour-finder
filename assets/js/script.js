@@ -2,9 +2,10 @@ var query = "11lb brisket and fries";
 
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = '130382831c7c42c98bad843f34508788';
+const spoonApiKey = "130382831c7c42c98bad843f34508788";
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
+
 const randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
@@ -13,7 +14,10 @@ const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
 async function getSpoonacularData() {
   try {
-    const response = await fetch(`${spoonURL}?apiKey=${spoonAPI_KEY}`);
+    const type = "dessert";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
     const data = await response.json();
     console.log("Spoonacular Data:", data);
   } catch (error) {
@@ -46,29 +50,33 @@ async function getSpoonacularRandom() {
   }
 }
 
-getSpoonacularRandom()
-  .then((recipes => {
-  recipes.forEach(recipe => {
-  renderCard(recipe);
-   })
-  }));
+getSpoonacularRandom().then((recipes) => {
+  console.log("inside", recipes);
+  recipes.forEach((recipe) => {
+    console.log(recipe.title);
+    renderCard();
+  });
+});
 
-const recipeSection = $('#recipes');
-
-function renderCard(recipe) {
-  let cardEl = $('<div class="card" style="width: 18rem">');
-  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
+function renderCard() {
+  console.log("inside", recipe);
+  let cardEl = $('<div class="card" style="width: 18rem;>');
+  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
+    "src",
+    recipe.image
+  );
   let cardInfoEl = $('<div class="card-body">');
-  let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
-  let caloriesIcon = $('<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'); 
-  let favoriteIcon = $('<i class="favorite material-icons" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
-
+  let cardTitle = $('< class="card-title">').text(recipe.title);
+  let timeIcon = $('<img class="card-img-top" alt="cooking time">');
+  let caloriesIcon = $('<img class="card-img-top" alt="cooking time">');
+  let favoriteIcon = $(
+    '<i class="favourite material-icons"style="font-size: 48px; color: rgb(240, 127, 127)">'
+  );
+  //let favoriteIcon = $('<img class="card-img-top" alt="cooking time">').attr('src', )
   cardInfoEl.append(timeIcon, caloriesIcon, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
-  recipeSection.append(cardEl)
+  recipeSection.append(cardEl);
 }
-
 
 getSpoonacularData();
 getNutritionData();
@@ -105,9 +113,9 @@ function displayFavourite() {
   console.log(fav);
 }
 
-
-
-
-
+$(document).on("click", ".material-icons", function () {
+  displayFavourite();
+  console.log("ding");
+});
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
