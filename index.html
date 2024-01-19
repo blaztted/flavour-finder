@@ -41,11 +41,15 @@
         <ul class="navbar-nav">
           <form class="d-flex" role="search">
             <input
+              id="searchInput"
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              oninput="search()"
             />
+            <div id="spoonacularResults"></div>
+            <div id="selectedResultDetails"></div>
             <button class="btn btn-outline-success" type="submit">
               Search
             </button>
