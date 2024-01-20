@@ -25,6 +25,62 @@ async function getSpoonacularData() {
   }
 }
 
+async function getSpoonacularMain() {
+  try {
+    const type = "main course";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+    return data.recipes;
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularBrekfast() {
+  try {
+    const type = "breakfast";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+    return data.recipes;
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularHealthy() {
+  try {
+    const type = "salad";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+    return data.recipes;
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+async function getSpoonacularDessert() {
+  try {
+    const type = "dessert";
+    const response = await fetch(
+      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+    );
+    const data = await response.json();
+    console.log("Spoonacular Data:", data);
+    return data.recipes;
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
 async function getNutritionData() {
   try {
     const response = await fetch(nutritionURL, {
@@ -53,9 +109,10 @@ async function getSpoonacularRandom() {
 getSpoonacularRandom().then((recipes => {
   recipes.forEach(recipe => {
   renderCard(recipe);
-   })
-  }));
+  })
+}));
 
+  
 const recipeSection = $('#recipes');
 
 function renderCard(recipe) {
@@ -79,6 +136,41 @@ function renderCard(recipe) {
 
 getSpoonacularData();
 getNutritionData();
+
+
+//Clickable buttons on hero section that render recepies per type:
+$("#dinner").on("click", function (e) {
+  // e.preventDefault();
+  console.log("hi")
+  getSpoonacularMain().forEach(recipe => {
+    renderCard(recipe);
+    })
+});
+
+$("#breakfast").on("click", function (e) {
+  // e.preventDefault();
+  console.log("hi")
+  getSpoonacularBrekfast().forEach(recipe => {
+  renderCard(recipe);
+  })
+});
+
+$("#healthy").on("click", function (e) {
+  // e.preventDefault();
+  console.log("hi")
+  getSpoonacularHealthy().forEach(recipe => {
+  renderCard(recipe);
+  })
+});
+
+$("#desserts").on("click", function (e) {
+  // e.preventDefault();
+  console.log("hi")
+  getSpoonacularBrekfast().forEach(recipe => {
+  renderCard(recipe);
+  })
+});
+
 
 //TODO if recipe already on favourites, remove it after click?
 
