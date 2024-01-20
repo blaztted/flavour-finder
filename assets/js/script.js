@@ -1,10 +1,11 @@
-var query = "11lb brisket and fries";
+var query = "Chili Pie with Green Chile and Cheddar Cornbread Crust";
 
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
 const spoonApiKey = "130382831c7c42c98bad843f34508788";
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
+
 
 const randomURL = "https://api.spoonacular.com/recipes/random";
 
@@ -33,7 +34,7 @@ async function getNutritionData() {
       },
     });
     const data = await response.json();
-    console.log("Nutrition Data:", data);
+    console.log("Nutrition Data pumpkin:", data);
   } catch (error) {
     console.error("Error fetching Ninja Nutrition data:", error);
   }
@@ -51,28 +52,35 @@ async function getSpoonacularRandom() {
 }
 
 getSpoonacularRandom().then((recipes => {
-  recipes.forEach(recipe => {
-  renderCard(recipe);
+  recipes.forEach(async recipe => {
+    const response2 = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`)
+    const data2 = await response2.json();
+    console.log(data2.calories);
+    renderCard(recipe, data2.calories);
    })
   }));
 
 const recipeSection = $('#recipes');
 
-function renderCard(recipe) {
-  
-  let cardEl = $('<div class="card" style="width: 18rem">');
+function renderCard(recipe, calories) {
+  console.log('inside cal', calories);
+  let cardEl = $('<div class="row align-items-start" style="width: 18rem">');
  // cardEl.css('background-image', 'url(' + recipe.image + ')');
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
   let cardInfoEl = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let timeInfoEl = $('<div>');
-  let cookingTime = $('<p>').text(recipe.cookingMinutes);
+  let timeInfoEl = $('<div class="col">');
+  let cookingTime = $('<p>').text(`${recipe.readyInMinutes} min`);
   let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
   timeInfoEl.append(cookingTime, timeIcon);
+  let caloriesInfoEl = $('<div class="col">');
+  let caloriesData = $('<p>').text(`${calories} kal`);
   let caloriesIcon = $('<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'); 
-  let favoriteIcon = $('<i class="favorite material-icons" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
+  caloriesInfoEl.append(caloriesData, caloriesIcon);
+  
+  let favoriteIcon = $('<i class="favorite material-icons col" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
 
-  cardInfoEl.append(timeInfoEl, caloriesIcon, favoriteIcon);
+  cardInfoEl.append(timeInfoEl, caloriesInfoEl, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
   recipeSection.append(cardEl);
 }
