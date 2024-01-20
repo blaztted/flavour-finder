@@ -50,30 +50,29 @@ async function getSpoonacularRandom() {
   }
 }
 
-getSpoonacularRandom().then((recipes) => {
-  console.log("inside", recipes);
-  recipes.forEach((recipe) => {
-    console.log(recipe.title);
-    renderCard();
-  });
-});
+getSpoonacularRandom().then((recipes => {
+  recipes.forEach(recipe => {
+  renderCard(recipe);
+   })
+  }));
 
-function renderCard() {
-  console.log("inside", recipe);
-  let cardEl = $('<div class="card" style="width: 18rem;>');
-  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
-    "src",
-    recipe.image
-  );
+const recipeSection = $('#recipes');
+
+function renderCard(recipe) {
+  
+  let cardEl = $('<div class="card" style="width: 18rem">');
+ // cardEl.css('background-image', 'url(' + recipe.image + ')');
+  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
   let cardInfoEl = $('<div class="card-body">');
-  let cardTitle = $('< class="card-title">').text(recipe.title);
-  let timeIcon = $('<img class="card-img-top" alt="cooking time">');
-  let caloriesIcon = $('<img class="card-img-top" alt="cooking time">');
-  let favoriteIcon = $(
-    '<i class="favourite material-icons"style="font-size: 48px; color: rgb(240, 127, 127)">'
-  );
-  //let favoriteIcon = $('<img class="card-img-top" alt="cooking time">').attr('src', )
-  cardInfoEl.append(timeIcon, caloriesIcon, favoriteIcon);
+  let cardTitle = $('<h5 class="card-title">').text(recipe.title);
+  let timeInfoEl = $('<div>');
+  let cookingTime = $('<p>').text(recipe.cookingMinutes);
+  let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
+  timeInfoEl.append(cookingTime, timeIcon);
+  let caloriesIcon = $('<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'); 
+  let favoriteIcon = $('<i class="favorite material-icons" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
+
+  cardInfoEl.append(timeInfoEl, caloriesIcon, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
   recipeSection.append(cardEl);
 }
