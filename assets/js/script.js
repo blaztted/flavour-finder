@@ -29,25 +29,25 @@ async function getSpoonacularMain() {
   try {
     const type = "main course";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
-    console.log("Spoonacular Data:", data);
-    return data.recipes;
+    console.log("Spoonacular Data:", data.results);
+    return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
 }
 
-async function getSpoonacularBrekfast() {
+async function getSpoonacularBreakfast() {
   try {
     const type = "breakfast";
     const response = await fetch(
       `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
-    console.log("Spoonacular Data:", data);
-    return data.recipes;
+    console.log("Spoonacular Data:", data.results);
+    return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -60,8 +60,8 @@ async function getSpoonacularHealthy() {
       `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
-    console.log("Spoonacular Data:", data);
-    return data.recipes;
+    console.log("Spoonacular Data:", data.results);
+    return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -74,8 +74,8 @@ async function getSpoonacularDessert() {
       `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
-    console.log("Spoonacular Data:", data);
-    return data.recipes;
+    console.log("Spoonacular Data:", data.results);
+    return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -141,35 +141,52 @@ getNutritionData();
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
   // e.preventDefault();
-  console.log("hi")
-  getSpoonacularMain().forEach(recipe => {
-    renderCard(recipe);
+  getSpoonacularMain().then((results => {
+    console.log(results)
+    results.forEach(result => {
+    cleanRenderCard()
+    renderCard(result);
     })
+  }));
 });
 
 $("#breakfast").on("click", function (e) {
   // e.preventDefault();
-  console.log("hi")
-  getSpoonacularBrekfast().forEach(recipe => {
-  renderCard(recipe);
-  })
+  getSpoonacularBreakfast().then((results => {
+    console.log(results)
+    results.forEach(result => {
+    cleanRenderCard()
+    renderCard(result);
+    })
+  }));
 });
 
 $("#healthy").on("click", function (e) {
   // e.preventDefault();
-  console.log("hi")
-  getSpoonacularHealthy().forEach(recipe => {
-  renderCard(recipe);
-  })
+  getSpoonacularHealthy().then((results => {
+    console.log(results)
+    results.forEach(result => {
+    cleanRenderCard()
+    renderCard(result);
+    })
+  }));
 });
 
 $("#desserts").on("click", function (e) {
   // e.preventDefault();
-  console.log("hi")
-  getSpoonacularBrekfast().forEach(recipe => {
-  renderCard(recipe);
-  })
+  getSpoonacularDessert().then((results => {
+    console.log(results)
+    results.forEach(result => {
+    cleanRenderCard()
+    renderCard(result);
+    })
+  }));
 });
+
+function cleanRenderCard(){
+  const recipeSection = $('#recipes');
+  recipeSection.empty();
+}
 
 
 //TODO if recipe already on favourites, remove it after click?
