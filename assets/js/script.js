@@ -1,8 +1,9 @@
-var query = "Chili Pie with Green Chile and Cheddar Cornbread Crust";
+const query = "Pasta";
 
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = "130382831c7c42c98bad843f34508788";
+//const spoonApiKey = "130382831c7c42c98bad843f34508788";
+const spoonApiKey = '2af1912b74d4f56deb9b5d0721288d123413be75'
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
@@ -11,7 +12,7 @@ const randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
-const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
+//const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
 async function getSpoonacularData() {
   try {
@@ -141,8 +142,8 @@ function renderCard(recipe, calories) {
   recipeSection.append(cardEl);
 }
 
-getSpoonacularData();
-getNutritionData();
+//getSpoonacularData();
+//getNutritionData();
 
 
 //Clickable buttons on hero section that render recepies per type:
