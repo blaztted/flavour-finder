@@ -9,7 +9,7 @@ const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
 
-Ninja Nutrition API
+// Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
 const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
@@ -115,21 +115,26 @@ getSpoonacularRandom().then(async (recipes) => {
     try {
       const response2 = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`);
       const data2 = await response2.json();
-      renderCard(recipe, data2.calories);
+      renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
       console.error('Error fetching data:', error);
       // Handle the error as needed
     }
   }
 
-  $('.recipeCard').on('click', () => {
-    console.log('hello');
+  $('.recipeCard').on('click', (e) => {
+    e.preventDefault();
+    const card = e.currentTarget;
+    const cardId = card.getAttribute('data-id');
+    console.log(cardId);
     modal.showModal();
   });
   
-  $('.favoriteIcon').on('click', () => {
-    console.log('hello favorite');
-    saveFavourite(recipeID);
+  $('.favoriteIcon').on('click', (e) => {
+    e.preventDefault();
+    const cardF = e.currentTarget;
+    const cardIdF = cardF.getAttribute('data-id');
+    saveFavourite(cardIdF);
   });
 
 });
@@ -138,8 +143,8 @@ getSpoonacularRandom().then(async (recipes) => {
 const recipesContainer = $('#recipes');
 const modal = document.querySelector("dialog");
 
-function renderCard(recipe, calories) {
-  let cardEl = $('<div class="row align-items-start recipeCard" style="width: 18rem">');
+function renderCard(recipe, calories, id) {
+  let cardEl = $('<div class="row align-items-start recipeCard" style="width: 18rem">').attr('data-id', id);
  // cardEl.css('background-image', 'url(' + recipe.image + ')');
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
   let cardInfoEl = $('<div class="card-body">');
