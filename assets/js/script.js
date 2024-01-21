@@ -3,15 +3,15 @@ const query = "Pasta";
 //Spoonacular API
 const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
 //const spoonApiKey = "130382831c7c42c98bad843f34508788";
-const spoonApiKey = '2af1912b74d4f56deb9b5d0721288d123413be75'
+const spoonApiKey = 'bcff6e10e66e459c8549a9cecab3a7ad'
 const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 
-const randomURL = "https://api.spoonacular.com/recipes/random";
+var randomURL = "https://api.spoonacular.com/recipes/random";
 
 //Ninja Nutrition API
-const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
+//const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
 //const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
 
 async function getSpoonacularData() {
@@ -97,6 +97,9 @@ async function getNutritionData() {
   }
 }
 
+// -----------------------------------------------------------------------------------------------------------
+// function that get random recipes
+
 async function getSpoonacularRandom() {
   try {
     const response = await fetch(`${randomURL}?number=4&apiKey=${spoonApiKey}`);
@@ -112,16 +115,17 @@ getSpoonacularRandom().then((recipes => {
   recipes.forEach(async recipe => {
     const response2 = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`)
     const data2 = await response2.json();
-    console.log(data2.calories);
     renderCard(recipe, data2.calories);
    })
   }));
 
+
+// function that render recipes cards
 const recipeSection = $('#recipes');
+const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories) {
-  console.log('inside cal', calories);
-  let cardEl = $('<div class="row align-items-start" style="width: 18rem">');
+  let cardEl = $('<div id="recipeCard"class="row align-items-start" style="width: 18rem">');
  // cardEl.css('background-image', 'url(' + recipe.image + ')');
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
   let cardInfoEl = $('<div class="card-body">');
@@ -140,8 +144,14 @@ function renderCard(recipe, calories) {
   cardInfoEl.append(timeInfoEl, caloriesInfoEl, favoriteIcon);
   cardEl.append(cardImg, cardTitle, cardInfoEl);
   recipeSection.append(cardEl);
+
+  $('#recipeCard').on('click', () => {
+  console.log('hello');
+  modal.showModal();
+})
 }
 
+// ----------------------------------------------------------------------------------------------------------
 //getSpoonacularData();
 //getNutritionData();
 
