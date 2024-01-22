@@ -1,9 +1,9 @@
 const query = "Pasta";
 
 //Spoonacular API
-const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = "dd8211cc2d0d428d959b137c94872134";
-const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
+const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
+const spoonApiKey = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -144,34 +144,59 @@ const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $(
-    '<div class="row align-items-start recipeCard" style="width: 18rem">'
-  ).attr("data-id", id);
-  // cardEl.css('background-image', 'url(' + recipe.image + ')');
+  let cardEl = $('<div class="card">').attr("data-id", id);
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
     "src",
     recipe.image
   );
-  let cardInfoEl = $('<div class="card-body">');
+  let cardBody = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let timeInfoEl = $('<div class="col">');
-  let cookingTime = $("<p>").text(`${recipe.readyInMinutes} min`);
-  let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
-  timeInfoEl.append(cookingTime, timeIcon);
-  let caloriesInfoEl = $('<div class="col">');
-  let caloriesData = $("<p>").text(`${calories} kal`);
-  let caloriesIcon = $(
-    '<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'
+  let cookingTime = $('<p class="card-text">').text(
+    `${recipe.readyInMinutes} min`
   );
-  caloriesInfoEl.append(caloriesData, caloriesIcon);
 
-  let favoriteIcon = $(
-    '<i class="favoriteIcon material-icons col" style="font-size: 35px; color: rgb(240, 127, 127)">'
-  ).text("favorite");
+  // row to hold card-text and favorite icon
+  let bottomRow = $('<div class="row align-items-center">');
 
-  cardInfoEl.append(timeInfoEl, caloriesInfoEl, favoriteIcon);
-  cardEl.append(cardImg, cardTitle, cardInfoEl);
-  recipesContainer.append(cardEl);
+  // Cooking time column
+  let timeColumn = $('<div class="col">');
+  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
+  timeColumn.append(clockIcon, cookingTime);
+
+  // Nutrition column
+  let caloriesColumn = $('<div class="col">').append(
+    $(
+      '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
+    ),
+    $('<p class="card-text">').text(`${calories} kal`)
+  );
+
+  // Favorite icon column
+  let iconColumn = $('<div class="col-auto">');
+  let favouriteIcon = $(
+    '<img class="favouriteIcon" width="25" height="25" src="./assets/images/icons/notfavourite.png" alt="Not Favorite Icon"/>'
+  );
+  iconColumn.append(favouriteIcon);
+
+  bottomRow.append(timeColumn, caloriesColumn, iconColumn);
+
+  cardBody.append(cardTitle, bottomRow);
+  cardEl.append(cardImg, cardBody);
+
+  // Append each card to the card deck
+  $(".card-deck").append(cardEl);
+
+  // favorite icon click event
+  favouriteIcon.on("click", function () {
+    // Toggle between icons
+    if (
+      favouriteIcon.attr("src") === "./assets/images/icons/notfavourite.png"
+    ) {
+      favouriteIcon.attr("src", "./assets/images/icons/favourite.png");
+    } else {
+      favouriteIcon.attr("src", "./assets/images/icons/notfavourite.png");
+    }
+  });
 }
 
 $(".close").on("click", (e) => {
