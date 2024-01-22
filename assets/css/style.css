@@ -61,7 +61,7 @@ justify-content: center;
   background: var(--lightGrey);
   font-family: var(--sottel);
   border-color: #dfdfdf;
-  padding
+  padding: 10px;
 }
   
 .btnshadow:hover {

@@ -66,7 +66,7 @@ function renderCard() {
     recipe.image
   );
   let cardInfoEl = $('<div class="card-body">');
-  let cardTitle = $('< class="card-title">').text(recipe.title);
+  let cardTitle = $('< classs="card-title">').text(recipe.title);
   let timeIcon = $('<img class="card-img-top" alt="cooking time">');
   let caloriesIcon = $('<img class="card-img-top" alt="cooking time">');
   let favoriteIcon = $(
