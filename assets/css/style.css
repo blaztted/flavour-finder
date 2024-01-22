@@ -60,8 +60,6 @@ justify-content: center;
   border-color: var(--darkLime);
   border-width: 2px;
   padding: 5px;
-  border-color: #dfdfdf;
-  padding: 10px;
 }
   
 .btnshadow:hover {
