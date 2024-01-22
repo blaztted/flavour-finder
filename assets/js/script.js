@@ -1,11 +1,10 @@
 const query = "Pasta";
 
 //Spoonacular API
-const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = 'dd8211cc2d0d428d959b137c94872134';
-const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
+const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
+const spoonApiKey = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
-
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
 
@@ -113,60 +112,94 @@ async function getSpoonacularRandom() {
 getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
     try {
-      const response2 = await fetch(`https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`);
+      const response2 = await fetch(
+        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+      );
       const data2 = await response2.json();
       renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
       // Handle the error as needed
     }
   }
 
-  $('.recipeCard').on('click', (e) => {
+  $(".recipeCard").on("click", (e) => {
     e.preventDefault();
     const card = e.currentTarget;
-    const cardId = card.getAttribute('data-id');
+    const cardId = card.getAttribute("data-id");
     console.log(cardId);
     modal.showModal();
   });
-  
-  $('.favoriteIcon').on('click', (e) => {
+
+  $(".favoriteIcon").on("click", (e) => {
     e.preventDefault();
     const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute('data-id');
+    const cardIdF = cardF.getAttribute("data-id");
     saveFavourite(cardIdF);
   });
-
 });
-  
+
 // function that render recipes cards
-const recipesContainer = $('#recipes');
+const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $('<div class="row align-items-start recipeCard" style="width: 18rem">').attr('data-id', id);
- // cardEl.css('background-image', 'url(' + recipe.image + ')');
-  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr('src', recipe.image);
-  let cardInfoEl = $('<div class="card-body">');
+  let cardEl = $('<div class="card">').attr("data-id", id);
+  let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
+    "src",
+    recipe.image
+  );
+  let cardBody = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let timeInfoEl = $('<div class="col">');
-  let cookingTime = $('<p>').text(`${recipe.readyInMinutes} min`);
-  let timeIcon = $('<span class="material-symbols-outlined">timer </span>');
-  timeInfoEl.append(cookingTime, timeIcon);
-  let caloriesInfoEl = $('<div class="col">');
-  let caloriesData = $('<p>').text(`${calories} kal`);
-  let caloriesIcon = $('<img width="25" height="25" src="https://img.icons8.com/external-ddara-lineal-ddara/64/external-calories-weight-loss-ddara-lineal-ddara.png" alt="external-calories-weight-loss-ddara-lineal-ddara"/>'); 
-  caloriesInfoEl.append(caloriesData, caloriesIcon);
-  
-  let favoriteIcon = $('<i class="favoriteIcon material-icons col" style="font-size: 35px; color: rgb(240, 127, 127)">').text('favorite');
+  let cookingTime = $('<p class="card-text">').text(
+    `${recipe.readyInMinutes} min`
+  );
 
-  cardInfoEl.append(timeInfoEl, caloriesInfoEl, favoriteIcon);
-  cardEl.append(cardImg, cardTitle, cardInfoEl);
-  recipesContainer.append(cardEl);
-  
+  // row to hold card-text and favorite icon
+  let bottomRow = $('<div class="row align-items-center">');
+
+  // Cooking time column
+  let timeColumn = $('<div class="col">');
+  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
+  timeColumn.append(clockIcon, cookingTime);
+
+  // Nutrition column
+  let caloriesColumn = $('<div class="col">').append(
+    $(
+      '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
+    ),
+    $('<p class="card-text">').text(`${calories} kal`)
+  );
+
+  // Favorite icon column
+  let iconColumn = $('<div class="col-auto">');
+  let favouriteIcon = $(
+    '<img class="favouriteIcon" width="25" height="25" src="./assets/images/icons/notfavourite.png" alt="Not Favorite Icon"/>'
+  );
+  iconColumn.append(favouriteIcon);
+
+  bottomRow.append(timeColumn, caloriesColumn, iconColumn);
+
+  cardBody.append(cardTitle, bottomRow);
+  cardEl.append(cardImg, cardBody);
+
+  // Append each card to the card deck
+  $(".card-deck").append(cardEl);
+
+  // favorite icon click event
+  favouriteIcon.on("click", function () {
+    // Toggle between icons
+    if (
+      favouriteIcon.attr("src") === "./assets/images/icons/notfavourite.png"
+    ) {
+      favouriteIcon.attr("src", "./assets/images/icons/favourite.png");
+    } else {
+      favouriteIcon.attr("src", "./assets/images/icons/notfavourite.png");
+    }
+  });
 }
 
-$('.close').on('click', (e) => {
+$(".close").on("click", (e) => {
   e.preventDefault();
   modal.close();
 });
@@ -175,57 +208,55 @@ $('.close').on('click', (e) => {
 getSpoonacularData();
 getNutritionData();
 
-
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
   // e.preventDefault();
-  getSpoonacularMain().then((results => {
-    console.log(results)
-    results.forEach(result => {
-    cleanRenderCard()
-    renderCard(result);
-    })
-  }));
+  getSpoonacularMain().then((results) => {
+    console.log(results);
+    results.forEach((result) => {
+      cleanRenderCard();
+      renderCard(result);
+    });
+  });
 });
 
 $("#breakfast").on("click", function (e) {
   // e.preventDefault();
-  getSpoonacularBreakfast().then((results => {
-    console.log(results)
-    results.forEach(result => {
-    cleanRenderCard()
-    renderCard(result);
-    })
-  }));
+  getSpoonacularBreakfast().then((results) => {
+    console.log(results);
+    results.forEach((result) => {
+      cleanRenderCard();
+      renderCard(result);
+    });
+  });
 });
 
 $("#healthy").on("click", function (e) {
   // e.preventDefault();
-  getSpoonacularHealthy().then((results => {
-    console.log(results)
-    results.forEach(result => {
-    cleanRenderCard()
-    renderCard(result);
-    })
-  }));
+  getSpoonacularHealthy().then((results) => {
+    console.log(results);
+    results.forEach((result) => {
+      cleanRenderCard();
+      renderCard(result);
+    });
+  });
 });
 
 $("#desserts").on("click", function (e) {
   // e.preventDefault();
-  getSpoonacularDessert().then((results => {
-    console.log(results)
-    results.forEach(result => {
-    cleanRenderCard()
-    renderCard(result);
-    })
-  }));
+  getSpoonacularDessert().then((results) => {
+    console.log(results);
+    results.forEach((result) => {
+      cleanRenderCard();
+      renderCard(result);
+    });
+  });
 });
 
-function cleanRenderCard(){
-  const recipeSection = $('#recipes');
+function cleanRenderCard() {
+  const recipeSection = $("#recipes");
   recipeSection.empty();
 }
-
 
 //TODO if recipe already on favourites, remove it after click?
 
@@ -262,6 +293,12 @@ function displayFavourite() {
 $(document).on("click", ".material-icons", function () {
   displayFavourite();
   console.log("ding");
+});
+
+//Refresh page when title is clicked
+document.getElementById("refresh").addEventListener("click", function (event) {
+  event.preventDefault();
+  location.reload();
 });
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
