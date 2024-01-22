@@ -270,4 +270,10 @@ $(document).on("click", ".material-icons", function () {
   console.log("ding");
 });
 
+//Refresh page when title is clicked
+document.getElementById("refresh").addEventListener("click", function (event) {
+  event.preventDefault();
+  location.reload();
+});
+
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
