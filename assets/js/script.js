@@ -116,36 +116,7 @@ async function getSpoonacularRandom() {
     );
     const data = await response.json();
     console.log("random Data:", data.recipes);
-
-    for (const recipe of data.recipes) {
-      try {
-        // Extract an ingredient from the recipe
-        const ingredient =
-          recipe.extendedIngredients.length > 0
-            ? recipe.extendedIngredients[0].name
-            : "defaultIngredient";
-
-        const nutritionResponse = await fetch(
-          `https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`,
-          {
-            headers: {
-              "X-Api-Key": nutritionAPI_KEY,
-            },
-          }
-        );
-
-        const nutritionData = await nutritionResponse.json();
-        console.log("Nutrition Data for", ingredient, ":", nutritionData);
-        const caloriesNinja = `${nutritionData[0]?.name} : ${Math.floor(
-          nutritionData[0]?.calories
-        )}`;
-
-        // Render the card with the obtained nutrition information
-        renderCard(recipe, caloriesNinja, recipe.id);
-      } catch (error) {
-        console.error("Error fetching nutrition data:", error);
-      }
-    }
+    return data.recipes;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -154,11 +125,29 @@ async function getSpoonacularRandom() {
 getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
     try {
-      const response2 = await fetch(
-        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonAPI_KEY}`
+      // Extract an ingredient from the recipe
+      const ingredient =
+        recipe.extendedIngredients.length > 0
+          ? recipe.extendedIngredients[0].name
+          : "defaultIngredient";
+
+      const nutritionResponse = await fetch(
+        `https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`,
+        {
+          headers: {
+            "X-Api-Key": nutritionAPI_KEY,
+          },
+        }
       );
-      const data2 = await response2.json();
-      renderCard(recipe, data2.calories, recipe.id);
+
+      const nutritionData = await nutritionResponse.json();
+      console.log("Nutrition Data for", ingredient, ":", nutritionData);
+      const caloriesNinja = `${nutritionData[0]?.name} : ${Math.floor(
+        nutritionData[0]?.calories
+      )}`;
+
+      // Render the card with the obtained nutrition information
+      renderCard(recipe, caloriesNinja, recipe.id);
     } catch (error) {
       console.error("Error fetching data:", error);
       // Handle the error as needed
