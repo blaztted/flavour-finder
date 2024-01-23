@@ -1,9 +1,9 @@
 const query = "Pasta";
 
 //Spoonacular API
-const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
-const spoonApiKey = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -193,10 +193,44 @@ function renderCard(recipe, calories, id) {
       favouriteIcon.attr("src") === "./assets/images/icons/notfavourite.png"
     ) {
       favouriteIcon.attr("src", "./assets/images/icons/favourite.png");
+
+      // Save to Fave
+      saveFavourite(id);
     } else {
       favouriteIcon.attr("src", "./assets/images/icons/notfavourite.png");
+      // Remove from Favs
+      removeFavourite(id);
     }
   });
+
+  function saveFavourite(recipeID) {
+    // Get favourites from localStorage
+    let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+
+    //Check if its already there, otherwise push it
+    if (!fav.includes(recipeID)) {
+      fav.push(recipeID);
+
+      //Save favourites
+      localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
+      console.log(`${recipeID} added`);
+    } else {
+      console.log(`${recipeID} already in favourites`);
+    }
+  }
+
+  function removeFavourite(recipeID) {
+    let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+
+    // Check if the recipeID is in the favs
+    let index = fav.indexOf(recipeID);
+    if (index !== -1) {
+      // Remove it
+      fav.splice(index, 1);
+      localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
+      console.log(`${recipeID} removed from favourites`);
+    }
+  }
 }
 
 $(".close").on("click", (e) => {
@@ -213,10 +247,10 @@ $("#dinner").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularMain().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -224,10 +258,10 @@ $("#breakfast").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -235,10 +269,10 @@ $("#healthy").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularHealthy().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -246,10 +280,10 @@ $("#desserts").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularDessert().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -260,33 +294,17 @@ function cleanRenderCard() {
 
 //TODO if recipe already on favourites, remove it after click?
 
-function saveFavourite(recipeID) {
-  // Get favourites from localStorage
-  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
-
-  //Check if its already there, otherwise push it
-  if (!fav.includes(recipeID)) {
-    fav.push(recipeID);
-
-    //Save favourites
-    localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
-    console.log(`${recipeID} added`);
-  } else {
-    console.log(`${recipeID} already in favourites`);
-  }
-}
-
 // Click event for when the recipe is chosen as favourite
 $(document).on("click", "favourite", function () {
   let recipeID = $(this).data(id); // every recipe has a different ID given by the API
   saveFavourite(recipeID);
 });
 
-// TODO Display it in the page aswell
 // Function to display fav recipes
 function displayFavourite() {
   // Get favourites from localStorage
   let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+
   console.log(fav);
 }
 
