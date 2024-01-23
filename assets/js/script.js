@@ -8,9 +8,9 @@ const spoonApiKey_1 = "30eb761ad0f148338c37b0972f3b9212";
  
 
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI = "154266e55cfe444ea8797e5b585a528c";
+const spoonApiKey = "154266e55cfe444ea8797e5b585a528c";
+const spoonAPI_KEY = "154266e55cfe444ea8797e5b585a528c";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -150,12 +150,14 @@ getSpoonacularRandom().then(async (recipes) => {
 
   $(".card").on("click", (e) => {
     e.preventDefault();
-    const card = e.currentTarget;
-    const cardId = card.getAttribute("data-id");
-    renderDescriptionCard(cardId);
-    console.log(cardId);
-    modal.showModal();
-    $('.modal-body').text('');
+    if (e.target.classList[0] !== 'favouriteIcon') {
+      const card = e.currentTarget;
+      const cardId = card.getAttribute("data-id");
+      renderDescriptionCard(cardId);
+      console.log(cardId);
+      modal.showModal();
+      $('.modal-body').text('');
+    }
   });
 
   $(".favoriteIcon").on("click", (e) => {
@@ -178,25 +180,30 @@ function renderCard(recipe, calories, id) {
   );
   let cardBody = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let cookingTime = $('<p class="card-text">').text(
-    `${recipe.readyInMinutes} min`
-  );
 
   // row to hold card-text and favorite icon
   let bottomRow = $('<div class="row align-items-center">');
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
-  timeColumn.append(clockIcon, cookingTime);
+  if (recipe.readyInMinutes) {
+    let cookingTime = $('<p class="card-text">').text(
+    `${recipe.readyInMinutes} min`
+  );
+    let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
+    timeColumn.append(clockIcon, cookingTime);
+  }
 
   // Nutrition column
-  let caloriesColumn = $('<div class="col">').append(
-    $(
-      '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
-    ),
-    $('<p class="card-text">').text(`${calories} kal`)
-  );
+  let caloriesColumn = $('<div class="col">');
+  if (calories) {
+    caloriesColumn.append(
+      $(
+        '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
+      ),
+      $('<p class="card-text">').text(`${calories} kal`)
+    );
+  }
 
   // Favorite icon column
   let iconColumn = $('<div class="col-auto">');
