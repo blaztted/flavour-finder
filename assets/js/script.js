@@ -1,14 +1,9 @@
 //Spoonacular API
 
-
-
- 
-
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
 const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
-
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -118,6 +113,45 @@ async function getDetailsById(recipeId) {
   }
 }
 
+
+async function melRender(results) {
+  cleanRenderCard();
+  for (const result of results) {
+    try {
+      const responseTime = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
+      );
+      const time = await responseTime.json();
+      console.log("time " + time)
+
+      const response2 = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+      );
+      const data2 = await response2.json();
+      result.readyInMinutes = time.readyInMinutes;
+      renderCard(result, data2.calories, result.id);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle the error as needed
+    }
+  }
+
+  $(".recipeCard").on("click", (e) => {
+    e.preventDefault();
+    const card = e.currentTarget;
+    const cardId = card.getAttribute("data-id");
+    console.log(cardId);
+    modal.showModal();
+  });
+
+  $(".favoriteIcon").on("click", (e) => {
+    e.preventDefault();
+    const cardF = e.currentTarget;
+    const cardIdF = cardF.getAttribute("data-id");
+    saveFavourite(cardIdF);
+  });
+}
+
 // -----------------------------------------------------------------------------------------------------------
 // function that get random recipes
 async function getSpoonacularRandom() {
@@ -183,6 +217,7 @@ getSpoonacularRandom().then(async (recipes) => {
         `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
       );
       const data2 = await response2.json();
+      console.log("random Data:", data2);
       renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -319,9 +354,10 @@ $("#dinner").on("click", function (e) {
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    melRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
