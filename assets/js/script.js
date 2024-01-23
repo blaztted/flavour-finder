@@ -347,7 +347,3 @@ $(document).ready(function () {
     getSpoonacularRandomRecipes(selectedMealType);
   });
 });
-
-
-
-// <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
