@@ -23,8 +23,8 @@
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg bg-warning container">
+        <div class="container">
           <a class="navbar-brand" href="#" id="refresh">Flavour Finder</a>
           <button
             class="navbar-toggler"
@@ -45,8 +45,9 @@
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
+                  id="searchInput"
                 />
-                <button class="btn btn-outline-success" type="submit">
+                <button class="btn btn-outline-success" id="searchButton" type="button">
                   Search
                 </button>
                 <i
@@ -66,7 +67,7 @@
     <!-- Hero Section -->
     <!--Jumbotron-->
 
-    <div class="jumbotron">
+    <div class="jumbotron bg-primary container text-center text-white">
       <h1 class="display-4">Recipe suggestions</h1>
       <p class="lead">
         Click on any type and we will give you 4 ideas. You just have to make
@@ -118,11 +119,9 @@
 
     <!-- Cards Section -->
 
-    <br />
-
     <section class="section"></section>
     <section class="section"></section>
-    <div class="card-deck" id="recipes"></div>
+    <div class="card-deck container bg-warning" id="recipes"></div>
 
     <!-- Scrollable modal -->
     <dialog class="dialog">
@@ -144,14 +143,14 @@
     <section class="section"></section>
 
     <!-----------------------------FOOTER --------------------------->
-    <section class="footer text-center" id="footer">
-      <div class="container">
+    <section class="sub-form" id="sub-form">
+      <div class="container text-white">
         <div class="row">
-          <div class="col-md-8 mx-auto">
-            <h5 class="section-heading">Subscribe to our newsletter:</h5>
+          <div class="col-md-6 mx-auto text-center bg-secondary">
+            <h5 class="section-heading mb-4">Subscribe to our newsletter:</h5>
             <!-- Form -->
             <div class="form">
-              <div class="subscribe col-lg-3 col-sm-6">
+              <div class="subscribe">
                 <form>
                   <div class="form-group">
                     <label for="exampleInputName">Name:</label>
@@ -176,37 +175,36 @@
                 </form>
               </div>
             </div>
-            <br />
-            <div class="icons d-grid gap-5 d-md-flex justify-content-center">
-              <a class="icons-link" href="mailto:contact@flavourfinder.com"
-                ><img
-                  src="./assets/images/icons/message.png"
-                  alt="Email icon"
-                  class="icon hvr-grow"
-                />
-              </a>
-              <a class="icons-link" href="https://www.facebook.com/"
-                ><img
-                  src="./assets/images/icons/facebook.png"
-                  alt="Facebook icon"
-                  class="icon hvr-grow"
-              /></a>
-              <a class="icons-link" href="https://www.instagram.com/"
-                ><img
-                  src="./assets/images/icons/instagram.png"
-                  alt="Instagram icon"
-                  class="icon hvr-grow"
-                />
-              </a>
-              <a class="icons-link" href="https://www.whatsapp.com/"
-                ><img
-                  src="./assets/images/icons/whatsapp.png"
-                  alt="Whatsapp icon"
-                  class="icon hvr-grow"
-                />
-              </a>
+          </div>
+          <div class="col-md-6 mx-auto text-center bg-success">
+            <h5 class="section-heading">Find us on social media</h5>
+            <div class="row gap-1 justify-content-center align-items-center">
+                <div class="col-md-6">
+                    <a class="icons-link d-block" href="https://www.facebook.com/">
+                        <img src="./assets/images/icons/facebook.png" alt="Facebook icon" class="icon w-25 hvr-grow" />
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a class="icons-link d-block" href="https://www.instagram.com/">
+                        <img src="./assets/images/icons/instagram.png" alt="Instagram icon" class="icon w-25 hvr-grow" />
+                    </a>
+                </div>
+                <div class="col-md-6">
+                    <a class="icons-link d-block" href="https://www.whatsapp.com/">
+                        <img src="./assets/images/icons/whatsapp.png" alt="Whatsapp icon" class="icon w-25 hvr-grow" />
+                    </a>
+                </div>
             </div>
-            <br />
+        </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class=" container footer text-center bg-primary text-white p-2" id="footer">
+      <div class="">
+        <div class="row">
+          <div class="col-md-8 mx-auto">
             <p>&copy; Pod 5 (Group 4) 2024. All Rights Reserved.</p>
           </div>
         </div>
