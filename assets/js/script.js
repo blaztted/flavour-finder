@@ -1,9 +1,9 @@
 const query = "Pasta";
 
 //Spoonacular API
-const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
+// const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
+// const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
+// const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -264,6 +264,8 @@ $("#breakfast").on("click", function (e) {
     }
   });
 });
+
+/********* PUSH ORIGIN THESE BUTTONS, INSTEAD OF 1 NOW THEY DISPLAY 4 RECIPES  */
 
 $("#healthy").on("click", function (e) {
   // e.preventDefault();
