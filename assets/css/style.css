@@ -9,7 +9,7 @@
 }
 
 .navbar {
-  height: 8rem;
+
   z-index: 1;
   width: 100%;
 
@@ -20,7 +20,7 @@
   font-family: "Montserrat", sans-serif;
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 50px;
-  margin-left: 5%;
+  margin-left: 2%;
   margin-right: 32%;
 }
 
@@ -38,14 +38,6 @@
 #recipes {
   display: flex;
   justify-content: space-around;
-}
-
-.jumbotron {
-  background: var(--lightGreen);
-  align-content: center;
-  margin-left: 9%;
-  margin-right: 9%;
-  font-family: var(--sottel);
 }
 
 .container {
@@ -76,8 +68,6 @@ justify-content: center;
   border-radius: 8%;
   justify-content: center;
   background: var(--darkLime);
-  margin-left: 9%;
-  margin-right: 9%;
 }
 
 .form {

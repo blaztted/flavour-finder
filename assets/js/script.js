@@ -3,7 +3,8 @@ const query = "Pasta";
 //Spoonacular API
 const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
 
-const spoonApiKey = "fa12c479ee07474cb6d222dadc6dab1d";
+const spoonApiKey = "30eb761ad0f148338c37b0972f3b9212";
+ 
 
 const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
@@ -305,17 +306,10 @@ document.getElementById("refresh").addEventListener("click", function (event) {
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
 
-function cleanRenderCard() {
-  const recipesContainer = $("#recipes");
-  recipesContainer.empty();
-}
 
-// ...
-
-async function getSpoonacularRandomRecipes(mealType) {
+async function getSpoonacularRandomRecipes() {
   try {
     const recipes = await getSpoonacularRandom();
-    const recipesContainer = $("#recipes");
 
     // Clear previous recipes
     cleanRenderCard();
@@ -340,7 +334,7 @@ async function getSpoonacularRandomRecipes(mealType) {
 // ...
 
 $(document).ready(function () {
-  // Handle search button click
+  // Handle search button 
   $("#searchButton").on("click", function () {
     const selectedMealType = $("#searchInput").val().toLowerCase();
     // Fetch and display random recipes for the selected meal type
