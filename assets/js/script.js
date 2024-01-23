@@ -2,11 +2,13 @@ const query = "Pasta";
 
 //Spoonacular API
 const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
-const spoonApiKey = "d5aa2db1f74941d1937230d905801cb1";
+const spoonApiKey = "130382831c7c42c98bad843f34508788";
 const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
-var randomURL = "https://api.spoonacular.com/recipes/random";
+const spoonacularURL = "https://api.spoonacular.com/recipes";
+// https://api.spoonacular.com/recipes/{id}/card
+
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
@@ -100,7 +102,7 @@ async function getNutritionData() {
 
 async function getSpoonacularRandom() {
   try {
-    const response = await fetch(`${randomURL}?number=4&apiKey=${spoonApiKey}`);
+    const response = await fetch(`${spoonacularURL}/random?number=4&apiKey=${spoonApiKey}`);
     const data = await response.json();
     console.log("random Data:", data.recipes);
     return data.recipes;
@@ -108,6 +110,22 @@ async function getSpoonacularRandom() {
     console.error("Error fetching Spoonacular data:", error);
   }
 }
+
+async function getRecipeCard(id) {
+  try {
+    const response = await fetch(`${spoonacularURL}/${id}/card?apiKey=${spoonApiKey}`);
+    const data = await response.json();
+    let recipeCardDiscreption = $('<img>', {
+      src: data.url,
+      alt: 'Recipe description'
+    });
+    $('.modal-body').append(recipeCardDiscreption);
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+
 
 getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
@@ -123,12 +141,14 @@ getSpoonacularRandom().then(async (recipes) => {
     }
   }
 
-  $(".recipeCard").on("click", (e) => {
+  $(".card").on("click", (e) => {
     e.preventDefault();
     const card = e.currentTarget;
     const cardId = card.getAttribute("data-id");
+    getRecipeCard(cardId);
     console.log(cardId);
     modal.showModal();
+    $('.modal-body').text('');
   });
 
   $(".favoriteIcon").on("click", (e) => {
@@ -160,7 +180,7 @@ function renderCard(recipe, calories, id) {
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
+  let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
   timeColumn.append(clockIcon, cookingTime);
 
   // Nutrition column
