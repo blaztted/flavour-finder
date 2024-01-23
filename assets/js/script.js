@@ -1,9 +1,9 @@
 const query = "Pasta";
 
 //Spoonacular API
-const spoonAPI = "907081a94bda4982a9136d51fa170a4d";
-const spoonApiKey = "907081a94bda4982a9136d51fa170a4d";
-const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
+const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -247,10 +247,10 @@ $("#dinner").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularMain().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -258,10 +258,10 @@ $("#breakfast").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -269,10 +269,10 @@ $("#healthy").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularHealthy().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -280,10 +280,10 @@ $("#desserts").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularDessert().then((results) => {
     console.log(results);
-    results.forEach((result) => {
-      cleanRenderCard();
-      renderCard(result);
-    });
+    cleanRenderCard();
+    for (let i = 0; i < 4; i++) {
+      renderCard(results[i]);
+    }
   });
 });
 
@@ -300,11 +300,11 @@ $(document).on("click", "favourite", function () {
   saveFavourite(recipeID);
 });
 
-// TODO Display it in the page aswell
 // Function to display fav recipes
 function displayFavourite() {
   // Get favourites from localStorage
   let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+
   console.log(fav);
 }
 
