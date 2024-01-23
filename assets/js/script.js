@@ -1,9 +1,9 @@
 const query = "Pasta";
 
 //Spoonacular API
-// const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
-// const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
-// const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
+const spoonApiKey = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
+const spoonAPI_KEY = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -92,6 +92,20 @@ async function getNutritionData() {
     console.log("Nutrition Data pumpkin:", data);
   } catch (error) {
     console.error("Error fetching Ninja Nutrition data:", error);
+  }
+}
+
+//Get the recipe details by the Id
+async function getDetailsById(recipeId) {
+  try {
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${spoonAPI_KEY}`
+    );
+    const data = await response.json();
+    return { name: data.title, link: data.sourceUrl };
+  } catch (error) {
+    console.error("Error fetching recipe details:", error);
+    return null;
   }
 }
 
@@ -310,9 +324,21 @@ function displayFavourite() {
   console.log(fav);
 }
 
+function displayFavouriteDetails() {
+  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+  // Log details for each favorite recipe
+  fav.forEach(async (recipeId) => {
+    const recipeDetails = await getDetailsById(recipeId);
+    if (recipeDetails) {
+      console.log(
+        `Recipe Name: ${recipeDetails.name}, Recipe Link: ${recipeDetails.link}`
+      );
+    }
+  });
+}
+
 $(document).on("click", ".material-icons", function () {
-  displayFavourite();
-  console.log("ding");
+  displayFavouriteDetails();
 });
 
 //Refresh page when title is clicked
