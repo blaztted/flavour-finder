@@ -3,7 +3,7 @@ const query = "Pasta";
 //Spoonacular API
 const spoonAPI = "d5aa2db1f74941d1937230d905801cb1";
 const spoonApiKey = "130382831c7c42c98bad843f34508788";
-const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI_KEY = "130382831c7c42c98bad843f34508788";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -111,7 +111,7 @@ async function getSpoonacularRandom() {
   }
 }
 
-async function getRecipeCard(id) {
+async function renderDescriptionCard(id) {
   try {
     const response = await fetch(`${spoonacularURL}/${id}/card?apiKey=${spoonApiKey}`);
     const data = await response.json();
@@ -145,7 +145,7 @@ getSpoonacularRandom().then(async (recipes) => {
     e.preventDefault();
     const card = e.currentTarget;
     const cardId = card.getAttribute("data-id");
-    getRecipeCard(cardId);
+    renderDescriptionCard(cardId);
     console.log(cardId);
     modal.showModal();
     $('.modal-body').text('');
@@ -164,7 +164,7 @@ const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $('<div class="card">').attr("data-id", id);
+  let cardEl = $('<div class="card" style="width: 15rem;">').attr("data-id", id);
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
     "src",
     recipe.image
@@ -225,8 +225,8 @@ $(".close").on("click", (e) => {
 });
 
 // ----------------------------------------------------------------------------------------------------------
-getSpoonacularData();
-getNutritionData();
+//getSpoonacularData();
+//getNutritionData();
 
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
