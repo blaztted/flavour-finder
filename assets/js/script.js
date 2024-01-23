@@ -144,7 +144,7 @@ getSpoonacularRandom().then(async (recipes) => {
       console.log("Nutrition Data for", ingredient, ":", nutritionData);
       const caloriesNinja = `${nutritionData[0]?.name} : ${Math.floor(
         nutritionData[0]?.calories
-      )}`;
+      )} `;
 
       // Render the card with the obtained nutrition information
       renderCard(recipe, caloriesNinja, recipe.id);
@@ -199,7 +199,7 @@ function renderCard(recipe, calories, id) {
     $(
       '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
     ),
-    $('<p class="card-text">').text(`${calories} kal`)
+    $('<p class="card-text">').text(`${calories} kal/100g`)
   );
 
   // Favorite icon column
