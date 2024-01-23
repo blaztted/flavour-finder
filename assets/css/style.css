@@ -9,7 +9,6 @@
 }
 
 .navbar {
-  height: 8rem;
   z-index: 1;
   width: 100%;
 }
@@ -19,6 +18,7 @@
   font-family: "Montserrat", sans-serif;
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 50px;
+  margin-left: 2%;
   margin-left: 2%;
   margin-right: 32%;
 }
@@ -46,6 +46,7 @@
 
 .btn {
   background: var(--lightGrey);
+  color: var(--lightColor);
   color: var(--lightColor);
   font-family: var(--sottel);
   border-color: var(--darkLime);
@@ -83,8 +84,16 @@
 .hvr-grow:active {
   -webkit-transform: scale(1.1);
   transform: scale(1.2);
+  transform: scale(1.2);
 }
 
+.favouriteIcon:hover {
+  cursor: pointer;
+}
+
+.modal-header {
+  justify-content: end;
+}
 .favouriteIcon:hover {
   cursor: pointer;
 }

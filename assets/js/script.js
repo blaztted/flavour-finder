@@ -2,7 +2,8 @@
 const spoonAPI_KEY = "64a2bc7d715247ec81ed1f207c1ee03d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
-var randomURL = "https://api.spoonacular.com/recipes/random";
+const spoonacularURL = "https://api.spoonacular.com/recipes";
+// https://api.spoonacular.com/recipes/{id}/card
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
@@ -154,12 +155,14 @@ getSpoonacularRandom().then(async (recipes) => {
     }
   }
 
-  $(".recipeCard").on("click", (e) => {
+  $(".card").on("click", (e) => {
     e.preventDefault();
     const card = e.currentTarget;
     const cardId = card.getAttribute("data-id");
+    renderDescriptionCard(cardId);
     console.log(cardId);
     modal.showModal();
+    $(".modal-body").text("");
   });
 
   $(".favoriteIcon").on("click", (e) => {
@@ -175,7 +178,10 @@ const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $('<div class="card">').attr("data-id", id);
+  let cardEl = $('<div class="card" style="width: 15rem;">').attr(
+    "data-id",
+    id
+  );
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
     "src",
     recipe.image
@@ -191,7 +197,7 @@ function renderCard(recipe, calories, id) {
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
+  let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
   timeColumn.append(clockIcon, cookingTime);
 
   // Nutrition column
@@ -270,7 +276,9 @@ $(".close").on("click", (e) => {
 });
 
 // ----------------------------------------------------------------------------------------------------------
-getSpoonacularData();
+
+//getSpoonacularData();
+
 //getNutritionData();
 
 //Clickable buttons on hero section that render recepies per type:
