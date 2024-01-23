@@ -1,9 +1,9 @@
 //Spoonacular API
 
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI = "62439c7e258d48069dac273eaf01e067";
-const spoonApiKey = "62439c7e258d48069dac273eaf01e067";
-const spoonAPI_KEY = "62439c7e258d48069dac273eaf01e067";
+const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
