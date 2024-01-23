@@ -1,7 +1,5 @@
 //Spoonacular API
-const spoonAPI = "819ac6da462849fd8b182c2f3b35fc7e";
-const spoonApiKey = "819ac6da462849fd8b182c2f3b35fc7e";
-const spoonAPI_KEY = "819ac6da462849fd8b182c2f3b35fc7e";
+const spoonAPI_KEY = "64a2bc7d715247ec81ed1f207c1ee03d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -113,7 +111,9 @@ async function getDetailsById(recipeId) {
 // function that get random recipes
 async function getSpoonacularRandom() {
   try {
-    const response = await fetch(`${randomURL}?number=4&apiKey=${spoonApiKey}`);
+    const response = await fetch(
+      `${randomURL}?number=4&apiKey=${spoonAPI_KEY}`
+    );
     const data = await response.json();
     console.log("random Data:", data.recipes);
 
@@ -155,7 +155,7 @@ getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
     try {
       const response2 = await fetch(
-        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonAPI_KEY}`
       );
       const data2 = await response2.json();
       renderCard(recipe, data2.calories, recipe.id);
@@ -379,3 +379,38 @@ document.getElementById("refresh").addEventListener("click", function (event) {
 // }
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
+
+async function getSpoonacularRandomRecipes() {
+  try {
+    const recipes = await getSpoonacularRandom();
+
+    // Clear previous recipes
+    cleanRenderCard();
+
+    for (let i = 0; i < 3 && i < recipes.length; i++) {
+      const recipe = recipes[i];
+      try {
+        const response2 = await fetch(
+          `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonAPI_KEY}`
+        );
+        const data2 = await response2.json();
+        renderCard(recipe, data2.calories, recipe.id);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching Spoonacular data:", error);
+  }
+}
+
+// ...
+
+$(document).ready(function () {
+  // Handle search button
+  $("#searchButton").on("click", function () {
+    const selectedMealType = $("#searchInput").val().toLowerCase();
+    // Fetch and display random recipes for the selected meal type
+    getSpoonacularRandomRecipes(selectedMealType);
+  });
+});
