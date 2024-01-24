@@ -1,9 +1,8 @@
 //Spoonacular API
-const spoonAPI_KEY = "64a2bc7d715247ec81ed1f207c1ee03d";
+const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
-const spoonacularURL = "https://api.spoonacular.com/recipes";
-// https://api.spoonacular.com/recipes/{id}/card
+var randomURL = "https://api.spoonacular.com/recipes/random";
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
@@ -149,27 +148,29 @@ getSpoonacularRandom().then(async (recipes) => {
 
       // Render the card with the obtained nutrition information
       renderCard(recipe, caloriesNinja, recipe.id);
+
+      //Click event do redirect to recipe website
+      $(`.card[data-id=${recipe.id}]`).on("click", () => {
+        redirectWebsite(recipe.id);
+      });
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Handle the error as needed
     }
   }
 
-  $(".card").on("click", (e) => {
+  function redirectWebsite(recipeId) {
+    getDetailsById(recipeId).then((recipeDetails) => {
+      if (recipeDetails) {
+        window.open(recipeDetails.link, "_blank");
+      }
+    });
+  }
+  $(".recipeCard").on("click", (e) => {
     e.preventDefault();
     const card = e.currentTarget;
     const cardId = card.getAttribute("data-id");
-    renderDescriptionCard(cardId);
     console.log(cardId);
     modal.showModal();
-    $(".modal-body").text("");
-  });
-
-  $(".favoriteIcon").on("click", (e) => {
-    e.preventDefault();
-    const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute("data-id");
-    saveFavourite(cardIdF);
   });
 });
 
@@ -178,10 +179,7 @@ const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $('<div class="card" style="width: 15rem;">').attr(
-    "data-id",
-    id
-  );
+  let cardEl = $('<div class="card">').attr("data-id", id);
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
     "src",
     recipe.image
@@ -197,7 +195,7 @@ function renderCard(recipe, calories, id) {
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
+  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
   timeColumn.append(clockIcon, cookingTime);
 
   // Nutrition column
@@ -276,9 +274,7 @@ $(".close").on("click", (e) => {
 });
 
 // ----------------------------------------------------------------------------------------------------------
-
-//getSpoonacularData();
-
+getSpoonacularData();
 //getNutritionData();
 
 //Clickable buttons on hero section that render recepies per type:
@@ -303,8 +299,6 @@ $("#breakfast").on("click", function (e) {
     }
   });
 });
-
-/********* PUSH ORIGIN THESE BUTTONS, INSTEAD OF 1 NOW THEY DISPLAY 4 RECIPES  */
 
 $("#healthy").on("click", function (e) {
   // e.preventDefault();
@@ -361,8 +355,17 @@ function displayFavouriteDetails() {
 }
 
 $(document).on("click", ".material-icons", function () {
+  //$("#exampleModal").modal("show");
+  var modalBackdrop = document.querySelector(".modal-backdrop");
+  if (modalBackdrop) {
+    // Remove the 'show' class to hide the backdrop
+    modalBackdrop.classList.remove("show");
+    modalBackdrop.remove();
+  }
   displayFavouriteDetails();
 });
+
+// Get the modal backdrop element
 
 //Refresh page when title is clicked
 document.getElementById("refresh").addEventListener("click", function (event) {
