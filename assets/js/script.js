@@ -1,7 +1,7 @@
+console.log("ding");
 //Spoonacular API
 const spoonAPI_KEY = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
-
 var randomURL = "https://api.spoonacular.com/recipes/random";
 
 // Ninja Nutrition API
