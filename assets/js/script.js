@@ -117,7 +117,7 @@ async function getDetailsById(recipeId) {
 async function timeCalTypeRecipeRender(results) {
   cleanRenderCard();
   // when we get a 402 error, this does not go to catch as we are succesfully fetching, problem is we're getting the wrong result (402). But we still want to show error message when this happens.
-  if (results == null){
+  if (results == null) {
     displayErrorMessage();
   }
 
@@ -127,7 +127,7 @@ async function timeCalTypeRecipeRender(results) {
         `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
       );
       const info = await moreInfo.json();
-      console.log("time " + info)
+      console.log("time " + info);
 
       const response2 = await fetch(
         `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
@@ -215,7 +215,7 @@ getSpoonacularRandom().then(async (recipes) => {
     console.log(cardId);
     modal.showModal();
   });
-}
+});
 
 // function that render recipes cards
 const recipesContainer = $("#recipes");
@@ -237,8 +237,8 @@ function renderCard(recipe, calories, id) {
   let timeColumn = $('<div class="col">');
   if (recipe.readyInMinutes) {
     let cookingTime = $('<p class="card-text">').text(
-    `${recipe.readyInMinutes} min`
-  );
+      `${recipe.readyInMinutes} min`
+    );
     let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
     timeColumn.append(clockIcon, cookingTime);
   }
@@ -327,11 +327,13 @@ $(".close").on("click", (e) => {
 
 function displayErrorMessage() {
   if (bootstrap == undefined) {
-    document.getElementById("browser-not-supported-container").classList.remove("d-none");
-} else {
-    modal1 = bootstrap.Modal.getOrCreateInstance('#modal1');
-    modal1.show()
-}
+    document
+      .getElementById("browser-not-supported-container")
+      .classList.remove("d-none");
+  } else {
+    modal1 = bootstrap.Modal.getOrCreateInstance("#modal1");
+    modal1.show();
+  }
 }
 
 // ----------------------------------------------------------------------------------------------------------
@@ -343,7 +345,7 @@ $("#dinner").on("click", function (e) {
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
@@ -351,7 +353,7 @@ $("#breakfast").on("click", function (e) {
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
@@ -359,7 +361,7 @@ $("#healthy").on("click", function (e) {
   getSpoonacularHealthy().then((results) => {
     console.log(results);
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
@@ -367,7 +369,7 @@ $("#desserts").on("click", function (e) {
   getSpoonacularDessert().then((results) => {
     console.log(results);
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 

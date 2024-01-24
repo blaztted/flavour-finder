@@ -128,7 +128,7 @@
 .modal-header {
   justify-content: end;
 }
-= .favouriteIcon:hover {
+.favouriteIcon:hover {
   cursor: pointer;
 }
 
