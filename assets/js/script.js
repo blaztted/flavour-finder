@@ -1,9 +1,9 @@
 //Spoonacular API
 
-const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI = "154266e55cfe444ea8797e5b585a528c";
-const spoonApiKey = "154266e55cfe444ea8797e5b585a528c";
-const spoonAPI_KEY = "154266e55cfe444ea8797e5b585a528c";
+const spoonAPI_KEY_1 = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI = "9c0267dec2614edfb309166902f01c56";
+const spoonApiKey = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI_KEY = "9c0267dec2614edfb309166902f01c56";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -144,13 +144,6 @@ async function timeCalTypeRecipeRender(results) {
     console.log(cardId);
     modal.showModal();
   });
-
-  $(".favoriteIcon").on("click", (e) => {
-    e.preventDefault();
-    const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute("data-id");
-    saveFavourite(cardIdF);
-  });
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -190,6 +183,16 @@ async function getSpoonacularRandom() {
         console.error("Error fetching nutrition data:", error);
       }
     }
+    $(".card").on("click", (e) => {
+    e.preventDefault();
+    if (e.target.classList[0] !== 'favouriteIcon') {
+      const card = e.currentTarget;
+      const cardId = card.getAttribute("data-id");
+      renderDescriptionCard(cardId);
+      modal.showModal();
+      $('.modal-body').text('');
+    }
+  });
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -213,27 +216,27 @@ async function renderDescriptionCard(id) {
 }
 
 
-
+/*
 getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
     try {
       const response2 = await fetch(
-        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+       `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
       );
       const data2 = await response2.json();
       console.log("random Data:", data2);
       renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Handle the error as needed
+       Handle the error as needed
     }
   }
 
-// Handle the clicking on the recipe card
+ Handle the clicking on the recipe card
 
-  $(".card").on("click", (e) => {
+ $(".card").on("click", (e) => {
     e.preventDefault();
-    if (e.target.classList[0] !== 'favouriteIcon') {
+   if (e.target.classList[0] !== 'favouriteIcon') {
       const card = e.currentTarget;
       const cardId = card.getAttribute("data-id");
       renderDescriptionCard(cardId);
@@ -241,17 +244,8 @@ getSpoonacularRandom().then(async (recipes) => {
       $('.modal-body').text('');
     }
   });
-
-  // Handle the clicking on the favourite icon
-
-  $(".favoriteIcon").on("click", (e) => {
-    e.preventDefault();
-    const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute("data-id");
-    saveFavourite(cardIdF);
-  });
 });
-
+*/
 // function that render recipes cards
 const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
