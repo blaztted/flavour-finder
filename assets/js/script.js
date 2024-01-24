@@ -183,16 +183,7 @@ async function getSpoonacularRandom() {
         console.error("Error fetching nutrition data:", error);
       }
     }
-    $(".card").on("click", (e) => {
-    e.preventDefault();
-    if (e.target.classList[0] !== 'favouriteIcon') {
-      const card = e.currentTarget;
-      const cardId = card.getAttribute("data-id");
-      renderDescriptionCard(cardId);
-      modal.showModal();
-      $('.modal-body').text('');
-    }
-  });
+    addCardEventListener();
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -246,6 +237,20 @@ getSpoonacularRandom().then(async (recipes) => {
   });
 });
 */
+
+function addCardEventListener() {
+  $(".card").on("click", (e) => {
+    e.preventDefault();
+   if (e.target.classList[0] !== 'favouriteIcon') {
+      const card = e.currentTarget;
+      const cardId = card.getAttribute("data-id");
+      renderDescriptionCard(cardId);
+      modal.showModal();
+      $('.modal-body').text('');
+    }
+  });
+}
+
 // function that render recipes cards
 const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
@@ -368,6 +373,7 @@ function errorFetchData() {
   modalHeader.append(modalText, modalCloseButton);
 };
 
+getSpoonacularRandom();
 
 // ----------------------------------------------------------------------------------------------------------
 
