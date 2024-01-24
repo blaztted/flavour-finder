@@ -72,28 +72,7 @@ justify-content: center;
   color: var(--darkLime)
 }
 
-.subscribe {
-  display: flex;
-  border-radius: 8%;
-  justify-content: center;
-  background: var(--darkLime);
-}
-
-.form {
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  justify-content: center;
-}
-
 /*--------FOOTER---------------*/
-
-.hvr-grow:hover,
-.hvr-grow:focus,
-.hvr-grow:active {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.2);
-}
 
 .footer {
   background-color: var(--lightGreen);
@@ -105,8 +84,41 @@ justify-content: center;
   padding: 1%;
 }
 
+.form {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+}
+.subscribe {
+  display: flex;
+  border-radius: 8%;
+  justify-content: center;
+  background: var(--darkLime);
+  padding: 0 10%;
+}
+
+.btn-subscribe {
+  border-color: var(--lightColor);
+  padding: 2%; 
+  font-weight: bold;
+  font-size:large
+}
+
+
+.hvr-grow:hover,
+.hvr-grow:focus,
+.hvr-grow:active {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.2);
+}
+
 .favouriteIcon:hover {
   cursor: pointer;
+}
+
+.icons-link {
+  padding: 15%;
 }
 
 .modal-header {
