@@ -148,6 +148,10 @@ justify-content: center;
   }
 }
 
+.subscribeBtn {
+  padding: 7px 0;
+}
+
 #reserved {
   color: black;
 }
