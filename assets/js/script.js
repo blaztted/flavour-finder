@@ -1,11 +1,4 @@
-const query = "Pasta";
-
 //Spoonacular API
-
-const spoonAPI_1 = "d5aa2db1f74941d1937230d905801cb1";
-
-const spoonApiKey_1 = "30eb761ad0f148338c37b0972f3b9212";
- 
 
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
 const spoonAPI = "154266e55cfe444ea8797e5b585a528c";
@@ -18,7 +11,7 @@ const spoonacularURL = "https://api.spoonacular.com/recipes";
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
-const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${query}`;
+//const nutritionURL = `https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`;
 
 async function getSpoonacularData() {
   try {
@@ -44,6 +37,7 @@ async function getSpoonacularMain() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+
   }
 }
 
@@ -51,7 +45,7 @@ async function getSpoonacularBreakfast() {
   try {
     const type = "breakfast";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -65,7 +59,7 @@ async function getSpoonacularHealthy() {
   try {
     const type = "salad";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -79,7 +73,7 @@ async function getSpoonacularDessert() {
   try {
     const type = "dessert";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -89,29 +83,113 @@ async function getSpoonacularDessert() {
   }
 }
 
-async function getNutritionData() {
+// async function getNutritionData() {
+//   try {
+//     const response = await fetch(nutritionURL, {
+//       headers: {
+//         "X-Api-Key": nutritionAPI_KEY,
+//       },
+//     });
+//     const data = await response.json();
+//     console.log("Nutrition Data pumpkin:", data);
+//   } catch (error) {
+//     console.error("Error fetching Ninja Nutrition data:", error);
+//   }
+// }
+
+//Get the recipe details by the Id
+async function getDetailsById(recipeId) {
   try {
-    const response = await fetch(nutritionURL, {
-      headers: {
-        "X-Api-Key": nutritionAPI_KEY,
-      },
-    });
+    const response = await fetch(
+      `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${spoonAPI_KEY}`
+    );
     const data = await response.json();
-    console.log("Nutrition Data pumpkin:", data);
+
+    console.log("API Response for Recipe Details:", data);
+
+    return { name: data.title, link: data.sourceUrl };
   } catch (error) {
-    console.error("Error fetching Ninja Nutrition data:", error);
+    console.error("Error fetching recipe details:", error);
   }
+}
+
+// Get time and calories for the clickable buttons on hero section that render recepies per type (dinner, breakfast, healthy and dessert):
+
+async function timeCalTypeRecipeRender(results) {
+  cleanRenderCard();
+  for (const result of results) {
+    try {
+      const moreInfo = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
+      );
+      const info = await moreInfo.json();
+      console.log("time " + info)
+
+      const response2 = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+      );
+      const data2 = await response2.json();
+      result.readyInMinutes = info.readyInMinutes;
+      renderCard(result, data2.calories, result.id);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      // Handle the error as needed
+    }
+  }
+
+  $(".recipeCard").on("click", (e) => {
+    e.preventDefault();
+    const card = e.currentTarget;
+    const cardId = card.getAttribute("data-id");
+    console.log(cardId);
+    modal.showModal();
+  });
+
+  $(".favoriteIcon").on("click", (e) => {
+    e.preventDefault();
+    const cardF = e.currentTarget;
+    const cardIdF = cardF.getAttribute("data-id");
+    saveFavourite(cardIdF);
+  });
 }
 
 // -----------------------------------------------------------------------------------------------------------
 // function that get random recipes
-
 async function getSpoonacularRandom() {
   try {
     const response = await fetch(`${spoonacularURL}/random?number=4&apiKey=${spoonApiKey}`);
     const data = await response.json();
     console.log("random Data:", data.recipes);
-    return data.recipes;
+
+    for (const recipe of data.recipes) {
+      try {
+        // Extract an ingredient from the recipe
+        const ingredient =
+          recipe.extendedIngredients.length > 0
+            ? recipe.extendedIngredients[0].name
+            : "defaultIngredient";
+
+        const nutritionResponse = await fetch(
+          `https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`,
+          {
+            headers: {
+              "X-Api-Key": nutritionAPI_KEY,
+            },
+          }
+        );
+
+        const nutritionData = await nutritionResponse.json();
+        console.log("Nutrition Data for", ingredient, ":", nutritionData);
+        const caloriesNinja = `${nutritionData[0]?.name} : ${Math.floor(
+          nutritionData[0]?.calories
+        )}`;
+
+        // Render the card with the obtained nutrition information
+        renderCard(recipe, caloriesNinja, recipe.id);
+      } catch (error) {
+        console.error("Error fetching nutrition data:", error);
+      }
+    }
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
@@ -143,6 +221,7 @@ getSpoonacularRandom().then(async (recipes) => {
         `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
       );
       const data2 = await response2.json();
+      console.log("random Data:", data2);
       renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -279,19 +358,41 @@ $(".close").on("click", (e) => {
   modal.close();
 });
 
+// Function to inform the user of a error while fetching the data.
+
+function errorFetchData() {
+  let modalEl = $('<div class="modal" tabindex="-1">');
+  let modalDialog = $('<div class="modal-dialog">');
+  let modalContent = $('<div class="modal-content">');
+  let modalHeader = $('<div class="modal-header">');
+  let modalCloseButton = $('<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>');
+  let modalText = $('<p>Sorry! Error fetching data.</p>')
+    
+  modalEl.append(modalDialog);
+  modalDialog.append(modalContent);
+  modalContent.append(modalHeader);
+  modalHeader.append(modalText, modalCloseButton);
+};
+
+
 // ----------------------------------------------------------------------------------------------------------
+
 //getSpoonacularData();
+
 //getNutritionData();
 
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
   // e.preventDefault();
+  // errorFetchData()
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
+
   });
 });
 
@@ -300,20 +401,24 @@ $("#breakfast").on("click", function (e) {
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
+
+/********* PUSH ORIGIN THESE BUTTONS, INSTEAD OF 1 NOW THEY DISPLAY 4 RECIPES  */
 
 $("#healthy").on("click", function (e) {
   // e.preventDefault();
   getSpoonacularHealthy().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
@@ -322,9 +427,10 @@ $("#desserts").on("click", function (e) {
   getSpoonacularDessert().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
@@ -333,25 +439,35 @@ function cleanRenderCard() {
   recipeSection.empty();
 }
 
-//TODO if recipe already on favourites, remove it after click?
-
 // Click event for when the recipe is chosen as favourite
 $(document).on("click", "favourite", function () {
   let recipeID = $(this).data(id); // every recipe has a different ID given by the API
   saveFavourite(recipeID);
 });
 
-// Function to display fav recipes
-function displayFavourite() {
-  // Get favourites from localStorage
-  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+// // Function to display fav recipes
+// function displayFavourite() {
+//   // Get favourites from localStorage
+//   let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
 
-  console.log(fav);
+//   console.log(fav);
+// }
+
+function displayFavouriteDetails() {
+  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+  // Log details for each favorite recipe
+  fav.forEach(async (recipeId) => {
+    const recipeDetails = await getDetailsById(recipeId);
+    if (recipeDetails) {
+      console.log(
+        `Recipe Name: ${recipeDetails.name}, Recipe Link: ${recipeDetails.link}`
+      );
+    }
+  });
 }
 
 $(document).on("click", ".material-icons", function () {
-  displayFavourite();
-  console.log("ding");
+  displayFavouriteDetails();
 });
 
 //Refresh page when title is clicked
@@ -359,6 +475,11 @@ document.getElementById("refresh").addEventListener("click", function (event) {
   event.preventDefault();
   location.reload();
 });
+
+// function removeAllFavorites() {
+//   localStorage.removeItem("favouriteRecipes");
+//   console.log("All favorites removed from local storage");
+// }
 
 // <a href="https://www.flaticon.com/free-icons/calories" title="calories icons">Calories icons created by Smashicons - Flaticon</a>
 
