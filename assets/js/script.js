@@ -1,13 +1,25 @@
 //Spoonacular API
 const query = "Pasta";
 
+
  
 
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
 const spoonAPI = "f4958189b1e84bb29420f09a80d787a4";
 const spoonApiKey = "f4958189b1e84bb29420f09a80d787a4";
 
+//Spoonacular API
 
+const spoonAPI_1 = "d5aa2db1f74941d1937230d905801cb1";
+
+const spoonApiKey_1 = "30eb761ad0f148338c37b0972f3b9212";
+ 
+
+const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
+>>>>>>> 4a528c53899827becc38cf0fa560449fe08c8359
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -364,11 +376,15 @@ function cleanRenderCard() {
   recipeSection.empty();
 }
 
+
+//TODO if recipe already on favourites, remove it after click?
+
 // Click event for when the recipe is chosen as favourite
 $(document).on("click", "favourite", function () {
   let recipeID = $(this).data(id); // every recipe has a different ID given by the API
   saveFavourite(recipeID);
 });
+
 
 // // Function to display fav recipes
 // function displayFavourite() {
@@ -389,6 +405,13 @@ function displayFavouriteDetails() {
       );
     }
   });
+
+// Function to display fav recipes
+function displayFavourite() {
+  // Get favourites from localStorage
+  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+
+  console.log(fav);
 }
 
 $(document).on("click", ".material-icons", function () {
