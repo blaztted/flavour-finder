@@ -121,6 +121,10 @@ justify-content: center;
   padding: 15%;
 }
 
+.icons-container{
+  padding: 3%;
+}
+
 .modal-header {
   justify-content: end;
 }
