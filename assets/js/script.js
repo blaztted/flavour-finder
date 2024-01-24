@@ -18,6 +18,7 @@ async function getSpoonacularData() {
     console.log("Spoonacular Data:", data);
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -32,6 +33,7 @@ async function getSpoonacularMain() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -39,13 +41,14 @@ async function getSpoonacularBreakfast() {
   try {
     const type = "breakfast";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -53,13 +56,14 @@ async function getSpoonacularHealthy() {
   try {
     const type = "salad";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -67,13 +71,14 @@ async function getSpoonacularDessert() {
   try {
     const type = "dessert";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -105,6 +110,44 @@ async function getDetailsById(recipeId) {
   } catch (error) {
     console.error("Error fetching recipe details:", error);
   }
+}
+
+// Get time and calories for the clickable buttons on hero section that render recepies per type (dinner, breakfast, healthy and dessert):
+
+async function timeCalTypeRecipeRender(results) {
+  cleanRenderCard();
+  // when we get a 402 error, this does not go to catch as we are succesfully fetching, problem is we're getting the wrong result (402). But we still want to show error message when this happens.
+  if (results == null){
+    displayErrorMessage();
+  }
+
+  for (const result of results) {
+    try {
+      const moreInfo = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
+      );
+      const info = await moreInfo.json();
+      console.log("time " + info)
+
+      const response2 = await fetch(
+        `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+      );
+      const data2 = await response2.json();
+      result.readyInMinutes = info.readyInMinutes;
+      renderCard(result, data2.calories, result.id);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      displayErrorMessage();
+    }
+  }
+
+  $(".recipeCard").on("click", (e) => {
+    e.preventDefault();
+    const card = e.currentTarget;
+    const cardId = card.getAttribute("data-id");
+    console.log(cardId);
+    modal.showModal();
+  });
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -172,7 +215,7 @@ getSpoonacularRandom().then(async (recipes) => {
     console.log(cardId);
     modal.showModal();
   });
-});
+}
 
 // function that render recipes cards
 const recipesContainer = $("#recipes");
@@ -186,25 +229,30 @@ function renderCard(recipe, calories, id) {
   );
   let cardBody = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let cookingTime = $('<p class="card-text">').text(
-    `${recipe.readyInMinutes} min`
-  );
 
   // row to hold card-text and favorite icon
   let bottomRow = $('<div class="row align-items-center">');
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer </span>');
-  timeColumn.append(clockIcon, cookingTime);
+  if (recipe.readyInMinutes) {
+    let cookingTime = $('<p class="card-text">').text(
+    `${recipe.readyInMinutes} min`
+  );
+    let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
+    timeColumn.append(clockIcon, cookingTime);
+  }
 
   // Nutrition column
-  let caloriesColumn = $('<div class="col">').append(
-    $(
-      '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
-    ),
-    $('<p class="card-text">').text(`${calories} kal/100g`)
-  );
+  let caloriesColumn = $('<div class="col">');
+  if (calories) {
+    caloriesColumn.append(
+      $(
+        '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
+      ),
+      $('<p class="card-text">').text(`${calories} kal`)
+    );
+  }
 
   // Favorite icon column
   let iconColumn = $('<div class="col-auto">');
@@ -268,10 +316,23 @@ function renderCard(recipe, calories, id) {
   }
 }
 
+// Handle the clicking on close button
+
 $(".close").on("click", (e) => {
   e.preventDefault();
   modal.close();
 });
+
+// Function to inform the user of a error while fetching the data.
+
+function displayErrorMessage() {
+  if (bootstrap == undefined) {
+    document.getElementById("browser-not-supported-container").classList.remove("d-none");
+} else {
+    modal1 = bootstrap.Modal.getOrCreateInstance('#modal1');
+    modal1.show()
+}
+}
 
 // ----------------------------------------------------------------------------------------------------------
 getSpoonacularData();
@@ -279,46 +340,34 @@ getSpoonacularData();
 
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
   });
 });
 
 $("#breakfast").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
   });
 });
 
 $("#healthy").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularHealthy().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
   });
 });
 
 $("#desserts").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularDessert().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
   });
 });
 

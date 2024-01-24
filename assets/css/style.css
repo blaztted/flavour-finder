@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Montserrat+Alternates:wght@300&family=Montserrat:wght@300&display=swap");
 
 :root {
-  --lightColor: whitesmoke;
+  --lightColor: #f0f4ed;
   --lightGrey: #dfdfdf;
   --lightGreen: #b0f097;
   --darkLime: #55ac08;
@@ -11,6 +11,7 @@
 .navbar {
   z-index: 1;
   width: 100%;
+  background-color: var(--lightColor);
 }
 
 .navbar-brand {
@@ -34,19 +35,27 @@
   margin-left: 5%;
 }
 
+#hero {
+  color: black;
+  padding: 5%;
+}
+
 #recipes {
   display: flex;
   justify-content: space-around;
+  background: var(--lightGreen);
+  padding: 5%;
 }
 
 .container {
   align-items: center;
   justify-content: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn {
-  background: var(--lightGrey);
-  color: var(--lightColor);
+  background: var(--darkLime);
   color: var(--lightColor);
   font-family: var(--sottel);
   border-color: var(--darkLime);
@@ -63,11 +72,16 @@
   color: var(--darkLime);
 }
 
-.subscribe {
-  display: flex;
-  border-radius: 8%;
-  justify-content: center;
-  background: var(--darkLime);
+/*--------FOOTER---------------*/
+
+.footer {
+  background-color: var(--lightGreen);
+}
+
+.footer1 {
+  background-color: var(--lightColor);
+  color: black;
+  padding: 1%;
 }
 
 .form {
@@ -76,8 +90,20 @@
   align-content: center;
   justify-content: center;
 }
+.subscribe {
+  display: flex;
+  border-radius: 8%;
+  justify-content: center;
+  background: var(--darkLime);
+  padding: 0 10%;
+}
 
-/*--------FOOTER---------------*/
+.btn-subscribe {
+  border-color: var(--lightColor);
+  padding: 2%;
+  font-weight: bold;
+  font-size: large;
+}
 
 .hvr-grow:hover,
 .hvr-grow:focus,
@@ -91,11 +117,18 @@
   cursor: pointer;
 }
 
+.icons-link {
+  padding: 15%;
+}
+
+.icons-container {
+  padding: 3%;
+}
+
 .modal-header {
   justify-content: end;
 }
-.favouriteIcon:hover,
-.card:hover {
+= .favouriteIcon:hover {
   cursor: pointer;
 }
 
