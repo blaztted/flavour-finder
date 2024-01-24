@@ -14,7 +14,6 @@ const spoonAPI_KEY = "154266e55cfe444ea8797e5b585a528c";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
-// https://api.spoonacular.com/recipes/{id}/card
 
 
 // Ninja Nutrition API
@@ -118,13 +117,16 @@ async function getSpoonacularRandom() {
   }
 }
 
+// function that render recipe description
+
 async function renderDescriptionCard(id) {
   try {
     const response = await fetch(`${spoonacularURL}/${id}/card?apiKey=${spoonApiKey}`);
     const data = await response.json();
     let recipeCardDiscreption = $('<img>', {
+      class: 'modalImg',
       src: data.url,
-      alt: 'Recipe description'
+      alt: 'Recipe description',
     });
     $('.modal-body').append(recipeCardDiscreption);
   } catch (error) {
@@ -148,17 +150,20 @@ getSpoonacularRandom().then(async (recipes) => {
     }
   }
 
+// Handle the clicking on the recipe card
+
   $(".card").on("click", (e) => {
     e.preventDefault();
     if (e.target.classList[0] !== 'favouriteIcon') {
       const card = e.currentTarget;
       const cardId = card.getAttribute("data-id");
       renderDescriptionCard(cardId);
-      console.log(cardId);
       modal.showModal();
       $('.modal-body').text('');
     }
   });
+
+  // Handle the clicking on the favourite icon
 
   $(".favoriteIcon").on("click", (e) => {
     e.preventDefault();
@@ -266,6 +271,8 @@ function renderCard(recipe, calories, id) {
     }
   }
 }
+
+// Handle the clicking on close button
 
 $(".close").on("click", (e) => {
   e.preventDefault();
