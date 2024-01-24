@@ -1,9 +1,9 @@
 //Spoonacular API
 
 const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonApiKey = "15f9f07b82a14f49b23101fccee1a8ce";
-const spoonAPI_KEY = "15f9f07b82a14f49b23101fccee1a8ce";
+const spoonAPI = "62439c7e258d48069dac273eaf01e067";
+const spoonApiKey = "62439c7e258d48069dac273eaf01e067";
+const spoonAPI_KEY = "62439c7e258d48069dac273eaf01e067";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 const spoonacularURL = "https://api.spoonacular.com/recipes";
@@ -38,6 +38,7 @@ async function getSpoonacularMain() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+
   }
 }
 
@@ -343,6 +344,23 @@ $(".close").on("click", (e) => {
   modal.close();
 });
 
+// Function to inform the user of a error while fetching the data.
+
+function errorFetchData() {
+  let modalEl = $('<div class="modal" tabindex="-1">');
+  let modalDialog = $('<div class="modal-dialog">');
+  let modalContent = $('<div class="modal-content">');
+  let modalHeader = $('<div class="modal-header">');
+  let modalCloseButton = $('<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>');
+  let modalText = $('<p>Sorry! Error fetching data.</p>')
+    
+  modalEl.append(modalDialog);
+  modalDialog.append(modalContent);
+  modalContent.append(modalHeader);
+  modalHeader.append(modalText, modalCloseButton);
+};
+
+
 // ----------------------------------------------------------------------------------------------------------
 
 //getSpoonacularData();
@@ -352,6 +370,7 @@ $(".close").on("click", (e) => {
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
   // e.preventDefault();
+  // errorFetchData()
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
@@ -359,6 +378,7 @@ $("#dinner").on("click", function (e) {
     // for (let i = 0; i < 4; i++) {
     //   renderCard(results[i]);
     // }
+
   });
 });
 
