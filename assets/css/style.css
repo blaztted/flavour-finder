@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Montserrat+Alternates:wght@300&family=Montserrat:wght@300&display=swap");
 
 :root {
-  --lightColor: whitesmoke;
+  --lightColor: #f0f4ed;;
   --lightGrey: #dfdfdf;
   --lightGreen: #b0f097;
   --darkLime: #55ac08;
@@ -12,7 +12,7 @@
 
   z-index: 1;
   width: 100%;
-
+  background-color: var(--lightColor);
 }
 
 .navbar-brand {
@@ -22,6 +22,7 @@
   font-size: 50px;
   margin-left: 2%;
   margin-right: 32%;
+  
 }
 
 .navbar-collapse {
@@ -35,18 +36,26 @@
   margin-left: 5%;
 }
 
+#hero {
+  color: black;
+  padding: 5%;
+}
+
 #recipes {
   display: flex;
   justify-content: space-around;
+  background: var(--lightGreen);
+  padding: 5%;
 }
 
 .container {
 align-items: center;
 justify-content: center;
+
 }
 
 .btn {
-  background: var(--lightGrey);
+  background: var(--darkLime);
   color: var(--lightColor);
   font-family: var(--sottel);
   border-color: var(--darkLime);
@@ -86,6 +95,15 @@ justify-content: center;
   transform: scale(1.2);
 }
 
+.footer {
+  background-color: var(--lightGreen);
+}
+
+.footer1 {
+  background-color: var(--lightColor);
+  color: black;
+  padding: 1%;
+}
 
 .favouriteIcon:hover {
   cursor: pointer;
@@ -93,6 +111,10 @@ justify-content: center;
 
 .modal-header {
   justify-content: end;
+}
+
+#reserved {
+  color: black;
 }
 =======
 
