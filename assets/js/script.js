@@ -1,5 +1,5 @@
 //Spoonacular API
-const spoonAPI_KEY = "907081a94bda4982a9136d51fa170a4d";
+const spoonAPI_KEY = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 
 var randomURL = "https://api.spoonacular.com/recipes/random";
@@ -124,13 +124,13 @@ async function timeCalTypeRecipeRender(results) {
   for (const result of results) {
     try {
       const moreInfo = await fetch(
-        `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
+        `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonAPI_KEY}`
       );
       const info = await moreInfo.json();
       console.log("time " + info);
 
       const response2 = await fetch(
-        `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+        `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonAPI_KEY}`
       );
       const data2 = await response2.json();
       result.readyInMinutes = info.readyInMinutes;
