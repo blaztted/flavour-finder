@@ -24,6 +24,7 @@ async function getSpoonacularData() {
     console.log("Spoonacular Data:", data);
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -38,7 +39,7 @@ async function getSpoonacularMain() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
-
+    displayErrorMessage();
   }
 }
 
@@ -53,6 +54,7 @@ async function getSpoonacularBreakfast() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -67,6 +69,7 @@ async function getSpoonacularHealthy() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -81,6 +84,7 @@ async function getSpoonacularDessert() {
     return data.results;
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
+    displayErrorMessage();
   }
 }
 
@@ -118,6 +122,11 @@ async function getDetailsById(recipeId) {
 
 async function timeCalTypeRecipeRender(results) {
   cleanRenderCard();
+  // when we get a 402 error, this does not go to catch as we are succesfully fetching, problem is we're getting the wrong result (402). But we still want to show error message when this happens.
+  if (results == null){
+    displayErrorMessage();
+  }
+
   for (const result of results) {
     try {
       const moreInfo = await fetch(
@@ -134,7 +143,7 @@ async function timeCalTypeRecipeRender(results) {
       renderCard(result, data2.calories, result.id);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Handle the error as needed
+      displayErrorMessage();
     }
   }
 
@@ -223,7 +232,7 @@ getSpoonacularRandom().then(async (recipes) => {
       renderCard(recipe, data2.calories, recipe.id);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Handle the error as needed
+      displayErrorMessage();
     }
   }
 
@@ -346,20 +355,14 @@ $(".close").on("click", (e) => {
 
 // Function to inform the user of a error while fetching the data.
 
-function errorFetchData() {
-  let modalEl = $('<div class="modal" tabindex="-1">');
-  let modalDialog = $('<div class="modal-dialog">');
-  let modalContent = $('<div class="modal-content">');
-  let modalHeader = $('<div class="modal-header">');
-  let modalCloseButton = $('<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>');
-  let modalText = $('<p>Sorry! Error fetching data.</p>')
-    
-  modalEl.append(modalDialog);
-  modalDialog.append(modalContent);
-  modalContent.append(modalHeader);
-  modalHeader.append(modalText, modalCloseButton);
-};
-
+function displayErrorMessage() {
+  if (bootstrap == undefined) {
+    document.getElementById("browser-not-supported-container").classList.remove("d-none");
+} else {
+    modal1 = bootstrap.Modal.getOrCreateInstance('#modal1');
+    modal1.show()
+}
+}
 
 // ----------------------------------------------------------------------------------------------------------
 
@@ -369,54 +372,34 @@ function errorFetchData() {
 
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
-  // e.preventDefault();
-  // errorFetchData()
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
     timeCalTypeRecipeRender(results)
-    // for (let i = 0; i < 4; i++) {
-    //   renderCard(results[i]);
-    // }
-
   });
 });
 
 $("#breakfast").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
     cleanRenderCard();
     timeCalTypeRecipeRender(results)
-    // for (let i = 0; i < 4; i++) {
-    //   renderCard(results[i]);
-    // }
   });
 });
 
-/********* PUSH ORIGIN THESE BUTTONS, INSTEAD OF 1 NOW THEY DISPLAY 4 RECIPES  */
-
 $("#healthy").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularHealthy().then((results) => {
     console.log(results);
     cleanRenderCard();
     timeCalTypeRecipeRender(results)
-    // for (let i = 0; i < 4; i++) {
-    //   renderCard(results[i]);
-    // }
   });
 });
 
 $("#desserts").on("click", function (e) {
-  // e.preventDefault();
   getSpoonacularDessert().then((results) => {
     console.log(results);
     cleanRenderCard();
     timeCalTypeRecipeRender(results)
-    // for (let i = 0; i < 4; i++) {
-    //   renderCard(results[i]);
-    // }
   });
 });
 
