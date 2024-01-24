@@ -129,6 +129,29 @@ justify-content: center;
   justify-content: end;
 }
 
+
+.modal-body {
+  width: 100%;
+  min-width: 300px;
+  min-height: 300px;
+}
+
+.modalImg {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .modal-body {
+    width: 700px;
+    min-width: 500px;
+    min-height: 500px;
+  }
+}
+
+.subscribeBtn {
+  padding: 7px 0;
+}
+
 #reserved {
   color: black;
 }

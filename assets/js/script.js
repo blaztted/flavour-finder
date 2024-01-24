@@ -1,13 +1,11 @@
 //Spoonacular API
 
-const spoonAPI_KEY_1 = "d5aa2db1f74941d1937230d905801cb1";
-const spoonAPI = "62439c7e258d48069dac273eaf01e067";
-const spoonApiKey = "62439c7e258d48069dac273eaf01e067";
-const spoonAPI_KEY = "62439c7e258d48069dac273eaf01e067";
+//const spoonAPI_KEY_1 = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI = "9c0267dec2614edfb309166902f01c56";
+const spoonApiKey = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI_KEY = "9c0267dec2614edfb309166902f01c56";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
-
 const spoonacularURL = "https://api.spoonacular.com/recipes";
-// https://api.spoonacular.com/recipes/{id}/card
 
 
 // Ninja Nutrition API
@@ -154,13 +152,6 @@ async function timeCalTypeRecipeRender(results) {
     console.log(cardId);
     modal.showModal();
   });
-
-  $(".favoriteIcon").on("click", (e) => {
-    e.preventDefault();
-    const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute("data-id");
-    saveFavourite(cardIdF);
-  });
 }
 
 // -----------------------------------------------------------------------------------------------------------
@@ -200,18 +191,22 @@ async function getSpoonacularRandom() {
         console.error("Error fetching nutrition data:", error);
       }
     }
+    addCardEventListener();
   } catch (error) {
     console.error("Error fetching Spoonacular data:", error);
   }
 }
+
+// function that render recipe description
 
 async function renderDescriptionCard(id) {
   try {
     const response = await fetch(`${spoonacularURL}/${id}/card?apiKey=${spoonApiKey}`);
     const data = await response.json();
     let recipeCardDiscreption = $('<img>', {
+      class: 'modalImg',
       src: data.url,
-      alt: 'Recipe description'
+      alt: 'Recipe description',
     });
     $('.modal-body').append(recipeCardDiscreption);
   } catch (error) {
@@ -219,13 +214,13 @@ async function renderDescriptionCard(id) {
   }
 }
 
-
-
+getSpoonacularRandom();
+/*
 getSpoonacularRandom().then(async (recipes) => {
   for (const recipe of recipes) {
     try {
       const response2 = await fetch(
-        `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
+       `https://api.spoonacular.com/recipes/${recipe.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
       );
       const data2 = await response2.json();
       console.log("random Data:", data2);
@@ -236,23 +231,33 @@ getSpoonacularRandom().then(async (recipes) => {
     }
   }
 
-  $(".card").on("click", (e) => {
-    e.preventDefault();
-    const card = e.currentTarget;
-    const cardId = card.getAttribute("data-id");
-    renderDescriptionCard(cardId);
-    console.log(cardId);
-    modal.showModal();
-    $('.modal-body').text('');
-  });
+ Handle the clicking on the recipe card
 
-  $(".favoriteIcon").on("click", (e) => {
+ $(".card").on("click", (e) => {
     e.preventDefault();
-    const cardF = e.currentTarget;
-    const cardIdF = cardF.getAttribute("data-id");
-    saveFavourite(cardIdF);
+   if (e.target.classList[0] !== 'favouriteIcon') {
+      const card = e.currentTarget;
+      const cardId = card.getAttribute("data-id");
+      renderDescriptionCard(cardId);
+      modal.showModal();
+      $('.modal-body').text('');
+    }
   });
 });
+*/
+
+function addCardEventListener() {
+  $(".card").on("click", (e) => {
+    e.preventDefault();
+   if (e.target.classList[0] !== 'favouriteIcon') {
+      const card = e.currentTarget;
+      const cardId = card.getAttribute("data-id");
+      renderDescriptionCard(cardId);
+      modal.showModal();
+      $('.modal-body').text('');
+    }
+  });
+}
 
 // function that render recipes cards
 const recipesContainer = $("#recipes");
@@ -266,25 +271,30 @@ function renderCard(recipe, calories, id) {
   );
   let cardBody = $('<div class="card-body">');
   let cardTitle = $('<h5 class="card-title">').text(recipe.title);
-  let cookingTime = $('<p class="card-text">').text(
-    `${recipe.readyInMinutes} min`
-  );
 
   // row to hold card-text and favorite icon
   let bottomRow = $('<div class="row align-items-center">');
 
   // Cooking time column
   let timeColumn = $('<div class="col">');
-  let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
-  timeColumn.append(clockIcon, cookingTime);
+  if (recipe.readyInMinutes) {
+    let cookingTime = $('<p class="card-text">').text(
+    `${recipe.readyInMinutes} min`
+  );
+    let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
+    timeColumn.append(clockIcon, cookingTime);
+  }
 
   // Nutrition column
-  let caloriesColumn = $('<div class="col">').append(
-    $(
-      '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
-    ),
-    $('<p class="card-text">').text(`${calories} kal`)
-  );
+  let caloriesColumn = $('<div class="col">');
+  if (calories) {
+    caloriesColumn.append(
+      $(
+        '<img width="25" height="25" src="./assets/images/icons/calorie.png" alt="Nutrition Icon"/>'
+      ),
+      $('<p class="card-text">').text(`${calories} kal`)
+    );
+  }
 
   // Favorite icon column
   let iconColumn = $('<div class="col-auto">');
@@ -347,6 +357,8 @@ function renderCard(recipe, calories, id) {
     }
   }
 }
+
+// Handle the clicking on close button
 
 $(".close").on("click", (e) => {
   e.preventDefault();
