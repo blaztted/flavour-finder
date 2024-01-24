@@ -49,6 +49,7 @@ N/A
 
 ## Usage
 To use the application here you have the link to the deployed webpage: https://blaztted.github.io/flavour-finder/
+Here is the link to the repository: https://github.com/blaztted/flavour-finder
 
 Once you open the application ther are four random recipes being displayed in four cards. You can also click on the buttons from the recipe suggestions (Dinner, Breakfast, Healthy and Dessert) and then 4 different recipe for each 
 and Write a task in the middle section and click on the button with the disk.
@@ -65,11 +66,12 @@ And here you have the previous wireframe:
 ![web intro](assets/images/wireframe.png)
 
 - Technologies used:
-HTML
-CSS
-JavaScript
-Bootstrap
-Jquery
+HTML, 
+CSS, 
+JavaScript, 
+Bootstrap, 
+Jquery, 
+Git.
 
 
 ## Credits
