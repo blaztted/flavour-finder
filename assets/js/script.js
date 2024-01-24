@@ -45,7 +45,7 @@ async function getSpoonacularBreakfast() {
   try {
     const type = "breakfast";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -59,7 +59,7 @@ async function getSpoonacularHealthy() {
   try {
     const type = "salad";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -73,7 +73,7 @@ async function getSpoonacularDessert() {
   try {
     const type = "dessert";
     const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
     );
     const data = await response.json();
     console.log("Spoonacular Data:", data.results);
@@ -113,22 +113,23 @@ async function getDetailsById(recipeId) {
   }
 }
 
+// Get time and calories for the clickable buttons on hero section that render recepies per type (dinner, breakfast, healthy and dessert):
 
-async function melRender(results) {
+async function timeCalTypeRecipeRender(results) {
   cleanRenderCard();
   for (const result of results) {
     try {
-      const responseTime = await fetch(
+      const moreInfo = await fetch(
         `https://api.spoonacular.com/recipes/${result.id}/information?apiKey=${spoonApiKey}`
       );
-      const time = await responseTime.json();
-      console.log("time " + time)
+      const info = await moreInfo.json();
+      console.log("time " + info)
 
       const response2 = await fetch(
         `https://api.spoonacular.com/recipes/${result.id}/nutritionWidget.json?apiKey=${spoonApiKey}`
       );
       const data2 = await response2.json();
-      result.readyInMinutes = time.readyInMinutes;
+      result.readyInMinutes = info.readyInMinutes;
       renderCard(result, data2.calories, result.id);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -354,7 +355,7 @@ $("#dinner").on("click", function (e) {
   getSpoonacularMain().then((results) => {
     console.log(results);
     cleanRenderCard();
-    melRender(results)
+    timeCalTypeRecipeRender(results)
     // for (let i = 0; i < 4; i++) {
     //   renderCard(results[i]);
     // }
@@ -366,9 +367,10 @@ $("#breakfast").on("click", function (e) {
   getSpoonacularBreakfast().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
@@ -379,9 +381,10 @@ $("#healthy").on("click", function (e) {
   getSpoonacularHealthy().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
@@ -390,9 +393,10 @@ $("#desserts").on("click", function (e) {
   getSpoonacularDessert().then((results) => {
     console.log(results);
     cleanRenderCard();
-    for (let i = 0; i < 4; i++) {
-      renderCard(results[i]);
-    }
+    timeCalTypeRecipeRender(results)
+    // for (let i = 0; i < 4; i++) {
+    //   renderCard(results[i]);
+    // }
   });
 });
 
