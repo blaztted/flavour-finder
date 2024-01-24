@@ -9,10 +9,14 @@
 }
 
 .navbar {
-
   z-index: 1;
   width: 100%;
+  background-color: #63c4c4;
 
+}
+
+.navbar a{
+  font-size: 2rem;
 }
 
 .navbar-brand {
@@ -21,7 +25,7 @@
   font-family: "Montserrat Alternates", sans-serif;
   font-size: 50px;
   margin-left: 2%;
-  margin-right: 32%;
+  margin-right: 20%;
 }
 
 .navbar-collapse {
@@ -33,11 +37,6 @@
 
 .favourite {
   margin-left: 5%;
-}
-
-#recipes {
-  display: flex;
-  justify-content: space-around;
 }
 
 .container {
@@ -77,6 +76,46 @@ justify-content: center;
   justify-content: center;
 }
 
+#recipes {
+  display: flex;
+  gap: 1rem;
+  background-color: #dfdfdf;
+  padding: 5px;
+  background-color: #afb4a8;
+  flex-wrap: wrap;
+}
+
+.jumbotron{
+  background-color:rgb(132, 169, 147);
+}
+
+ul {
+  display: flex;
+  gap: 0.7rem;
+}
+
+ul a{
+  text-decoration: none;
+  color: #55ac08;
+  font-size: 1px;
+}
+
+ul li {
+  list-style: none;
+  font-size: 1.6rem;
+  color: aliceblue;
+  font-weight:bold;
+}
+
+ul a:hover {
+  color: #dfdfdf;
+  background-color: blue;
+  width: 120px;
+  text-align: center;
+  transition: 0.5s;
+  border-radius: 25px;
+}
+
 /*--------FOOTER---------------*/
 
 .hvr-grow:hover,
@@ -88,4 +127,40 @@ justify-content: center;
 
 .favouriteIcon:hover {
   cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  .icon {
+    width: 50px;
+    height: 50px;
+  }
+  .jumbotron .row {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .jumbotron button {
+    width: 50%;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .container p {
+    font-size: 10px;
+  }
+
+  #recipes{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navbar a{
+    font-size: 1.5rem;
+  }
+
+  .material-icons,ul li {
+    align-items: center;
+    font-size: 1.0rem;
+  }
 }
