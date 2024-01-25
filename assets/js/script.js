@@ -1,13 +1,11 @@
 //Spoonacular API
 
-const spoonAPI_KEY = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 const spoonacularURL = "https://api.spoonacular.com/recipes";
 
-
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
-
 
 async function getSpoonacularData() {
   try {
@@ -91,7 +89,7 @@ async function getDetailsById(recipeId) {
 async function timeCalTypeRecipeRender(results) {
   cleanRenderCard();
   // when we get a 402 error, this does not go to catch as we are succesfully fetching, problem is we're getting the wrong result (402). But we still want to show error message when this happens.
-  if (results == null){
+  if (results == null) {
     displayErrorMessage();
   }
 
@@ -120,7 +118,9 @@ async function timeCalTypeRecipeRender(results) {
 // function that get random recipes
 async function getSpoonacularRandom() {
   try {
-    const response = await fetch(`${spoonacularURL}/random?number=4&apiKey=${spoonAPI_KEY}`);
+    const response = await fetch(
+      `${spoonacularURL}/random?number=4&apiKey=${spoonAPI_KEY}`
+    );
     const data = await response.json();
 
     for (const recipe of data.recipes) {
@@ -161,14 +161,16 @@ async function getSpoonacularRandom() {
 
 async function renderDescriptionCard(id) {
   try {
-    const response = await fetch(`${spoonacularURL}/${id}/card?apiKey=${spoonAPI_KEY}`);
+    const response = await fetch(
+      `${spoonacularURL}/${id}/card?apiKey=${spoonAPI_KEY}`
+    );
     const data = await response.json();
-    let recipeCardDiscreption = $('<img>', {
-      class: 'modalImg',
+    let recipeCardDiscreption = $("<img>", {
+      class: "modalImg",
       src: data.url,
-      alt: 'Recipe description',
+      alt: "Recipe description",
     });
-    $('.modal-body').append(recipeCardDiscreption);
+    $(".modal-body").append(recipeCardDiscreption);
   } catch (error) {
     displayErrorMessage();
   }
@@ -179,12 +181,12 @@ getSpoonacularRandom();
 function addCardEventListener() {
   $(".card").on("click", (e) => {
     e.preventDefault();
-   if (e.target.classList[0] !== 'favouriteIcon') {
+    if (e.target.classList[0] !== "favouriteIcon") {
       const card = e.currentTarget;
       const cardId = card.getAttribute("data-id");
       renderDescriptionCard(cardId);
       modal.showModal();
-      $('.modal-body').text('');
+      $(".modal-body").text("");
     }
   });
 }
@@ -194,7 +196,10 @@ const recipesContainer = $("#recipes");
 const modal = document.querySelector("dialog");
 
 function renderCard(recipe, calories, id) {
-  let cardEl = $('<div class="card" style="width: 15rem;">').attr("data-id", id);
+  let cardEl = $('<div class="card" style="width: 15rem;">').attr(
+    "data-id",
+    id
+  );
   let cardImg = $('<img class="card-img-top" alt="recipe img">').attr(
     "src",
     recipe.image
@@ -209,8 +214,8 @@ function renderCard(recipe, calories, id) {
   let timeColumn = $('<div class="col">');
   if (recipe.readyInMinutes) {
     let cookingTime = $('<p class="card-text">').text(
-    `${recipe.readyInMinutes} min`
-  );
+      `${recipe.readyInMinutes} min`
+    );
     let clockIcon = $('<span class="material-symbols-outlined">timer</span>');
     timeColumn.append(clockIcon, cookingTime);
   }
@@ -268,9 +273,7 @@ function renderCard(recipe, calories, id) {
 
       //Save favourites
       localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
-      console.log(`${recipeID} added`);
     } else {
-      console.log(`${recipeID} already in favourites`);
     }
   }
 
@@ -283,7 +286,6 @@ function renderCard(recipe, calories, id) {
       // Remove it
       fav.splice(index, 1);
       localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
-      console.log(`${recipeID} removed from favourites`);
     }
   }
 }
@@ -299,39 +301,41 @@ $(".close").on("click", (e) => {
 
 function displayErrorMessage() {
   if (bootstrap == undefined) {
-    document.getElementById("browser-not-supported-container").classList.remove("d-none");
-} else {
-    let modal1 = bootstrap.Modal.getOrCreateInstance('#modal1');
-    modal1.show()
-}
+    document
+      .getElementById("browser-not-supported-container")
+      .classList.remove("d-none");
+  } else {
+    let modal1 = bootstrap.Modal.getOrCreateInstance("#modal1");
+    modal1.show();
+  }
 }
 
 //Clickable buttons on hero section that render recepies per type:
 $("#dinner").on("click", function (e) {
   getSpoonacularMain().then((results) => {
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
 $("#breakfast").on("click", function (e) {
   getSpoonacularBreakfast().then((results) => {
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
 $("#healthy").on("click", function (e) {
   getSpoonacularHealthy().then((results) => {
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
 $("#desserts").on("click", function (e) {
   getSpoonacularDessert().then((results) => {
     cleanRenderCard();
-    timeCalTypeRecipeRender(results)
+    timeCalTypeRecipeRender(results);
   });
 });
 
@@ -346,21 +350,31 @@ $(document).on("click", "favourite", function () {
   saveFavourite(recipeID);
 });
 
-function displayFavouriteDetails() {
-  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
-  // Log details for each favorite recipe
+function displayFavourites() {
+  const fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+  const offcanvasBody = $(".offcanvas-body");
+
+  offcanvasBody.empty();
+
+  // Loop through each favorite recipe ID and render details
   fav.forEach(async (recipeId) => {
     const recipeDetails = await getDetailsById(recipeId);
     if (recipeDetails) {
-      console.log(
-        `Recipe Name: ${recipeDetails.name}, Recipe Link: ${recipeDetails.link}`
+      const favoriteItem = $(
+        `<p>${recipeDetails.name}</p><a href="${recipeDetails.link}" target="_blank">View Recipe</a><hr>`
       );
+      offcanvasBody.append(favoriteItem);
     }
   });
 }
 
 $(document).on("click", ".material-icons", function () {
-  displayFavouriteDetails();
+  displayFavourites(); // Display favorites in the modal
+});
+
+$("#clearLocalStorageBtn").on("click", function () {
+  localStorage.clear();
+  displayFavourites();
 });
 
 //Refresh page when title is clicked
@@ -385,7 +399,7 @@ async function getSpoonacularRandomRecipes() {
         const data2 = await response2.json();
         renderCard(recipe, data2.calories, recipe.id);
       } catch (error) {
-       displayErrorMessage(); 
+        displayErrorMessage();
       }
     }
   } catch (error) {
@@ -396,7 +410,7 @@ async function getSpoonacularRandomRecipes() {
 // ...
 
 $(document).ready(function () {
-  // Handle search button 
+  // Handle search button
   $("#searchButton").on("click", function () {
     const selectedMealType = $("#searchInput").val().toLowerCase();
     // Fetch and display random recipes for the selected meal type
