@@ -15,6 +15,11 @@
   background-color: var(--lightColor);
 }
 
+.social {
+      padding: 0;
+      width: 115px;
+}
+
 .navbar-brand {
   font-family: "Inter", sans-serif;
   font-family: "Montserrat", sans-serif;
@@ -23,6 +28,10 @@
   margin-left: 2%;
   margin-right: 32%;
   
+}
+
+.card {
+  height: 360px;
 }
 
 .navbar-collapse {
@@ -140,6 +149,14 @@ justify-content: center;
   width: 100%;
 }
 
+.subscribe {
+  padding: 10px 20px;
+}
+
+form {
+  margin-bottom: 0;
+}
+
 @media (min-width: 768px) {
   .modal-body {
     width: 700px;
@@ -173,7 +190,8 @@ justify-content: center;
 
   .card {
     margin-bottom: 15px;
-    width: 100%;
+    width: 90% !important;
+    height: auto;
   }
 }
 
