@@ -1,11 +1,24 @@
 //Spoonacular API
 
-const spoonAPI_KEY = "30eb761ad0f148338c37b0972f3b9212";
+const spoonAPI_KEY = "f4958189b1e84bb29420f09a80d787a4";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 const spoonacularURL = "https://api.spoonacular.com/recipes";
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
+
+async function getSpoonacularMain() {
+  try {
+    const type = "main";
+    const response = await fetch(
+      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
+    );
+    const data = await response.json();
+    return data.results;
+  } catch (error) {
+    displayErrorMessage();
+  }
+}
 
 async function getSpoonacularBreakfast() {
   try {
@@ -401,3 +414,4 @@ $(document).ready(function () {
     getSpoonacularRandomRecipes(selectedMealType);
   });
 });
+
