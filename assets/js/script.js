@@ -1,36 +1,11 @@
 //Spoonacular API
 
-const spoonAPI_KEY = "d5aa2db1f74941d1937230d905801cb1";
+const spoonAPI_KEY = "30eb761ad0f148338c37b0972f3b9212";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 const spoonacularURL = "https://api.spoonacular.com/recipes";
 
 // Ninja Nutrition API
 const nutritionAPI_KEY = "cdNqZImiN0YKg9Zkpdz3ow==7vSXmA0YWuPePX5J";
-
-async function getSpoonacularData() {
-  try {
-    const type = "dessert";
-    const response = await fetch(
-      `${spoonURL}?apiKey=${spoonAPI_KEY}&type=${type}`
-    );
-    const data = await response.json();
-  } catch (error) {
-    displayErrorMessage();
-  }
-}
-
-async function getSpoonacularMain() {
-  try {
-    const type = "main course";
-    const response = await fetch(
-      `${spoonURL}?number=4&apiKey=${spoonAPI_KEY}&type=${type}`
-    );
-    const data = await response.json();
-    return data.results;
-  } catch (error) {
-    displayErrorMessage();
-  }
-}
 
 async function getSpoonacularBreakfast() {
   try {
@@ -66,6 +41,56 @@ async function getSpoonacularDessert() {
     );
     const data = await response.json();
     return data.results;
+  } catch (error) {
+    displayErrorMessage();
+  }
+}
+
+// function that get random recipes
+async function getSpoonacularRandom() {
+  try {
+    const response = await fetch(
+      `${spoonacularURL}/random?number=4&apiKey=${spoonAPI_KEY}`
+    );
+    const data = await response.json();
+
+    for (const recipe of data.recipes) {
+      try {
+        // Extract all ingredients from the recipe
+        const ingredients = recipe.extendedIngredients.map(
+          (ingredient) => ingredient.name
+        );
+
+        // Get nutrition information for all ingredients
+        const nutritionPromises = ingredients.map((ingredient) =>
+          fetch(`https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`, {
+            headers: {
+              "X-Api-Key": nutritionAPI_KEY,
+            },
+          })
+        );
+
+        const nutritionResponses = await Promise.all(nutritionPromises);
+        const nutritionData = await Promise.all(
+          nutritionResponses.map((response) => response.json())
+        );
+
+        // Calculate total calories for all ingredients/100g
+        const totalCalories =
+          nutritionData.reduce((sum, nutrient) => {
+            const calories = nutrient[0]?.calories || 0;
+            return sum + calories;
+          }, 0) / 10;
+
+        const caloriesNinja = ` ${Math.floor(totalCalories)}`;
+
+        // Render the card with the obtained nutrition information
+        renderCard(recipe, caloriesNinja, recipe.id);
+      } catch (error) {
+        displayErrorMessage();
+      }
+    }
+    addCardEventListener();
   } catch (error) {
     displayErrorMessage();
   }
@@ -115,47 +140,6 @@ async function timeCalTypeRecipeRender(results) {
 }
 
 // -----------------------------------------------------------------------------------------------------------
-// function that get random recipes
-async function getSpoonacularRandom() {
-  try {
-    const response = await fetch(
-      `${spoonacularURL}/random?number=4&apiKey=${spoonAPI_KEY}`
-    );
-    const data = await response.json();
-
-    for (const recipe of data.recipes) {
-      try {
-        // Extract an ingredient from the recipe
-        const ingredient =
-          recipe.extendedIngredients.length > 0
-            ? recipe.extendedIngredients[0].name
-            : "defaultIngredient";
-
-        const nutritionResponse = await fetch(
-          `https://api.api-ninjas.com/v1/nutrition?query=${ingredient}`,
-          {
-            headers: {
-              "X-Api-Key": nutritionAPI_KEY,
-            },
-          }
-        );
-
-        const nutritionData = await nutritionResponse.json();
-        const caloriesNinja = `${nutritionData[0]?.name} : ${Math.floor(
-          nutritionData[0]?.calories
-        )}`;
-
-        // Render the card with the obtained nutrition information
-        renderCard(recipe, caloriesNinja, recipe.id);
-      } catch (error) {
-        displayErrorMessage();
-      }
-    }
-    addCardEventListener();
-  } catch (error) {
-    displayErrorMessage();
-  }
-}
 
 // function that render recipe description
 
@@ -234,7 +218,7 @@ function renderCard(recipe, calories, id) {
   // Favorite icon column
   let iconColumn = $('<div class="col-auto">');
   let favouriteIcon = $(
-    '<img class="favouriteIcon" width="25" height="25" src="./assets/images/icons/notfavourite.png" alt="Not Favorite Icon"/>'
+    '<img class="favouriteIcon" width="25" height="25" style="margin-bottom:20px" src="./assets/images/icons/notfavourite.png" alt="Not Favorite Icon"/>'
   );
   iconColumn.append(favouriteIcon);
 
@@ -339,16 +323,16 @@ $("#desserts").on("click", function (e) {
   });
 });
 
-function cleanRenderCard() {
-  const recipeSection = $("#recipes");
-  recipeSection.empty();
-}
-
 // Click event for when the recipe is chosen as favourite
 $(document).on("click", "favourite", function () {
   let recipeID = $(this).data(id); // every recipe has a different ID given by the API
   saveFavourite(recipeID);
 });
+
+function cleanRenderCard() {
+  const recipeSection = $("#recipes");
+  recipeSection.empty();
+}
 
 function displayFavourites() {
   const fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
