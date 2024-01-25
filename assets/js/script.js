@@ -1,6 +1,6 @@
 //Spoonacular API
 
-const spoonAPI_KEY = "9c0267dec2614edfb309166902f01c56";
+const spoonAPI_KEY = "5f74e7ba7dda43cdad8f0cfa75a8cc64";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 const spoonacularURL = "https://api.spoonacular.com/recipes";
 
@@ -365,9 +365,9 @@ function displayFavouriteDetails() {
     }
   });
 }
-
 $(document).on("click", ".material-icons", function () {
-  displayFavouriteDetails();
+  $("#exampleModal").modal("show");
+  displayFavouriteDetails(); // Display favorites in the modal
 });
 
 //Refresh page when title is clicked

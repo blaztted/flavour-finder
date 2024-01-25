@@ -142,8 +142,6 @@
 .card:hover {
   outline: 2px solid black;
 }
-<<<<<<< HEAD
-=======
 
 .subscribeBtn {
   padding: 7px 0;
@@ -152,15 +150,16 @@
 #reserved {
   color: black;
 }
-=======
 
-.favouriteIcon:hover{
-  cursor:pointer;
+.favouriteIcon:hover {
+  cursor: pointer;
 }
 
-.favourite:hover{
-  cursor:pointer;
-  transform: scale(1.2); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+.favourite:hover {
+  cursor: pointer;
+  transform: scale(
+    1.2
+  ); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
 }
 
 @media only screen and (max-width: 767px) {
@@ -173,6 +172,3 @@
     width: 100%;
   }
 }
-
-
->>>>>>> 540e738ee081cda2ed583770fdb8813581b791ae
