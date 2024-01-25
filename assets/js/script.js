@@ -273,9 +273,7 @@ function renderCard(recipe, calories, id) {
 
       //Save favourites
       localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
-      console.log(`${recipeID} added`);
     } else {
-      console.log(`${recipeID} already in favourites`);
     }
   }
 
@@ -288,7 +286,6 @@ function renderCard(recipe, calories, id) {
       // Remove it
       fav.splice(index, 1);
       localStorage.setItem("favouriteRecipes", JSON.stringify(fav));
-      console.log(`${recipeID} removed from favourites`);
     }
   }
 }
@@ -353,21 +350,26 @@ $(document).on("click", "favourite", function () {
   saveFavourite(recipeID);
 });
 
-function displayFavouriteDetails() {
-  let fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
-  // Log details for each favorite recipe
+function displayFavourites() {
+  const fav = JSON.parse(localStorage.getItem("favouriteRecipes")) || [];
+  const offcanvasBody = $(".offcanvas-body");
+
+  offcanvasBody.empty();
+
+  // Loop through each favorite recipe ID and render details
   fav.forEach(async (recipeId) => {
     const recipeDetails = await getDetailsById(recipeId);
     if (recipeDetails) {
-      console.log(
-        `Recipe Name: ${recipeDetails.name}, Recipe Link: ${recipeDetails.link}`
+      const favoriteItem = $(
+        `<p>${recipeDetails.name}</p><a href="${recipeDetails.link}" target="_blank">View Recipe</a><hr>`
       );
+      offcanvasBody.append(favoriteItem);
     }
   });
 }
+
 $(document).on("click", ".material-icons", function () {
-  $("#exampleModal").modal("show");
-  displayFavouriteDetails(); // Display favorites in the modal
+  displayFavourites(); // Display favorites in the modal
 });
 
 //Refresh page when title is clicked
