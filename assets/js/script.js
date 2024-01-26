@@ -1,6 +1,6 @@
 //Spoonacular API
 
-const spoonAPI_KEY = "f4958189b1e84bb29420f09a80d787a4";
+const spoonAPI_KEY = "e45feb6b607140ccb6606be1e50094dc";
 const spoonURL = "https://api.spoonacular.com/recipes/complexSearch";
 const spoonacularURL = "https://api.spoonacular.com/recipes";
 
